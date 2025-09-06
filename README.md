@@ -1,2 +1,0 @@
-# dail-a-bakkie
-
