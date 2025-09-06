@@ -1,3 +1,32 @@
+// Theme Management
+function initTheme() {
+    const savedTheme = localStorage.getItem('dial-a-bakkie-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('dial-a-bakkie-theme', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+    
+    if (theme === 'dark') {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+    } else {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+    }
+}
+
 // Mock data
 const mockDrivers = [
     {
@@ -151,3 +180,8 @@ function populateDriverCard(cardId, driver) {
         </div>
     `;
 }
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+});
