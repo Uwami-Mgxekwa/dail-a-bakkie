@@ -1,3 +1,61 @@
+/* CSS Variables for Theme Colors */
+:root {
+    --bg-primary: #f9fafb;
+    --bg-secondary: #ffffff;
+    --bg-accent: #eff6ff;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-accent: #2563eb;
+    --border-color: #e5e7eb;
+    --border-focus: #2563eb;
+    --button-primary: #2563eb;
+    --button-primary-hover: #1d4ed8;
+    --button-secondary: #e5e7eb;
+    --button-secondary-hover: #d1d5db;
+    --button-danger: #ef4444;
+    --button-danger-hover: #dc2626;
+    --button-success: #059669;
+    --button-success-hover: #047857;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --focus-shadow: rgba(37, 99, 235, 0.1);
+    --success-bg: #f0fdf4;
+    --success-border: #bbf7d0;
+    --success-text: #15803d;
+    --progress-bg: #eff6ff;
+    --progress-border: #bfdbfe;
+    --progress-text: #1d4ed8;
+    --star-color: #fbbf24;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-accent: #1e3a8a;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-accent: #60a5fa;
+    --border-color: #374151;
+    --border-focus: #60a5fa;
+    --button-primary: #2563eb;
+    --button-primary-hover: #3b82f6;
+    --button-secondary: #374151;
+    --button-secondary-hover: #4b5563;
+    --button-danger: #ef4444;
+    --button-danger-hover: #f87171;
+    --button-success: #059669;
+    --button-success-hover: #10b981;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --focus-shadow: rgba(96, 165, 250, 0.2);
+    --success-bg: #064e3b;
+    --success-border: #059669;
+    --success-text: #34d399;
+    --progress-bg: #1e3a8a;
+    --progress-border: #3b82f6;
+    --progress-text: #60a5fa;
+    --star-color: #fbbf24;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +64,10 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f9fafb;
-    color: #111827;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -26,7 +85,7 @@ body {
 .header h1 {
     font-size: 24px;
     font-weight: bold;
-    color: #111827;
+    color: var(--text-primary);
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -35,28 +94,30 @@ body {
 }
 
 .header p {
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .truck-icon {
     width: 32px;
     height: 32px;
-    fill: #2563eb;
+    stroke: var(--text-accent);
 }
 
 .card {
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px var(--shadow);
+    border: 1px solid var(--border-color);
     padding: 24px;
     margin-bottom: 24px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card h2 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 16px;
+    color: var(--text-primary);
 }
 
 .input-group {
@@ -67,16 +128,18 @@ body {
 .input-group input {
     width: 100%;
     padding: 12px 12px 12px 40px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 16px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     transition: all 0.2s;
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--focus-shadow);
 }
 
 .input-icon {
@@ -86,11 +149,11 @@ body {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    fill: #9ca3af;
+    stroke: var(--text-secondary);
 }
 
 .price-estimate {
-    background: #eff6ff;
+    background: var(--bg-accent);
     border-radius: 8px;
     padding: 12px;
     margin-top: 16px;
@@ -100,13 +163,13 @@ body {
 }
 
 .price-estimate span:first-child {
-    color: #374151;
+    color: var(--text-primary);
 }
 
 .price-estimate span:last-child {
     font-size: 20px;
     font-weight: bold;
-    color: #2563eb;
+    color: var(--text-accent);
 }
 
 .btn {
@@ -121,35 +184,35 @@ body {
 }
 
 .btn-primary {
-    background: #2563eb;
+    background: var(--button-primary);
     color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: #1d4ed8;
+    background: var(--button-primary-hover);
 }
 
 .btn-primary:disabled {
-    background: #d1d5db;
+    background: var(--text-secondary);
     cursor: not-allowed;
 }
 
 .btn-secondary {
-    background: #e5e7eb;
-    color: #374151;
+    background: var(--button-secondary);
+    color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-    background: #d1d5db;
+    background: var(--button-secondary-hover);
 }
 
 .btn-danger {
-    background: #ef4444;
+    background: var(--button-danger);
     color: white;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
+    background: var(--button-danger-hover);
 }
 
 .status-card {
@@ -160,8 +223,8 @@ body {
 .spinner {
     width: 32px;
     height: 32px;
-    border: 4px solid #dbeafe;
-    border-top: 4px solid #2563eb;
+    border: 4px solid var(--bg-accent);
+    border-top: 4px solid var(--text-accent);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 16px;
@@ -173,22 +236,24 @@ body {
 }
 
 .success-card {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #15803d;
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    color: var(--success-text);
 }
 
 .progress-card {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    color: #1d4ed8;
+    background: var(--progress-bg);
+    border: 1px solid var(--progress-border);
+    color: var(--progress-text);
 }
 
 .driver-card {
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
+    background: var(--bg-secondary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .driver-header {
@@ -207,7 +272,7 @@ body {
 .driver-avatar {
     width: 48px;
     height: 48px;
-    background: #d1d5db;
+    background: var(--button-secondary);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -217,12 +282,13 @@ body {
 .driver-avatar svg {
     width: 24px;
     height: 24px;
-    fill: #6b7280;
+    stroke: var(--text-secondary);
 }
 
 .driver-details h3 {
     font-weight: 600;
     margin-bottom: 4px;
+    color: var(--text-primary);
 }
 
 .rating {
@@ -230,17 +296,17 @@ body {
     align-items: center;
     gap: 4px;
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .star {
     width: 16px;
     height: 16px;
-    fill: #fbbf24;
+    fill: var(--star-color);
 }
 
 .call-btn {
-    background: #059669;
+    background: var(--button-success);
     color: white;
     border: none;
     border-radius: 50%;
@@ -250,10 +316,11 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .call-btn:hover {
-    background: #047857;
+    background: var(--button-success-hover);
 }
 
 .driver-specs {
@@ -268,15 +335,16 @@ body {
 }
 
 .spec-row span:first-child {
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .spec-row span:last-child {
     font-weight: 500;
+    color: var(--text-primary);
 }
 
 .eta {
-    color: #2563eb !important;
+    color: var(--text-accent) !important;
 }
 
 .btn-group {
@@ -290,29 +358,146 @@ body {
 
 .trip-details {
     padding: 16px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     margin-bottom: 16px;
+    background: var(--bg-secondary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .trip-details h4 {
     font-weight: 600;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .support-info {
     text-align: center;
     margin-top: 24px;
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .support-info a {
-    color: #2563eb;
+    color: var(--text-accent);
     font-weight: 500;
     text-decoration: none;
 }
 
+.support-info a:hover {
+    text-decoration: underline;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px var(--shadow);
+    z-index: 1000;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--border-focus);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-accent);
+}
+
 .hidden {
     display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .truck-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .theme-toggle {
+        top: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .driver-header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 480px;
+        padding: 40px;
+    }
+
+    .card {
+        padding: 32px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .truck-icon {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Animation for state changes */
+.card,
+.driver-card,
+.trip-details {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
