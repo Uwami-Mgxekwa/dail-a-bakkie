@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dial a Bakkie - Request Service</title>
+    <link rel="stylesheet" href="/css/client.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <svg class="truck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
+                    <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
+                </svg>
+                Dial a Bakkie
+            </h1>
+            <p>Quick and reliable furniture & goods transport</p>
+        </div>
+
+        <!-- Location Input Card -->
+        <div class="card" id="locationCard">
+            <h2>Where to?</h2>
+            
+            <div class="input-group">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <input type="text" id="pickupLocation" placeholder="Pickup location" list="locations">
+            </div>
+            
+            <div class="input-group">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <input type="text" id="dropoffLocation" placeholder="Drop-off location" list="locations">
+            </div>
+
+            <datalist id="locations">
+                <option value="Hillbrow, Johannesburg">
+                <option value="Berea, Johannesburg">
+                <option value="Yeoville, Johannesburg">
+                <option value="CBD, Johannesburg">
+                <option value="Braamfontein, Johannesburg">
+                <option value="Newtown, Johannesburg">
+            </datalist>
+
+            <div class="price-estimate hidden" id="priceEstimate">
+                <span>Estimated Price:</span>
+                <span id="priceAmount">R0</span>
+            </div>
+        </div>
+
+        <!-- Request Button -->
+        <button class="btn btn-primary" id="requestBtn" disabled onclick="requestBakkie()">
+            Request Bakkie - R<span id="btnPrice">0</span>
+        </button>
+
+        <!-- Searching Status -->
+        <div class="card status-card hidden" id="searchingCard">
+            <div class="spinner"></div>
+            <h3>Finding your driver...</h3>
+            <p>We're matching you with the nearest available bakkie</p>
+            <button class="btn btn-danger" onclick="cancelRequest()" style="margin-top: 16px;">Cancel Request</button>
+        </div>
+
+        <!-- Driver Matched -->
+        <div id="matchedSection" class="hidden">
+            <div class="card status-card success-card">
+                <h3>Driver Found!</h3>
+                <p>Your bakkie is on the way</p>
+            </div>
+            
+            <div class="driver-card" id="driverCard">
+                <!-- Driver info will be populated by JavaScript -->
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="cancelRequest()">Cancel</button>
+                <button class="btn btn-primary" onclick="startTrip()">Confirm</button>
+            </div>
+        </div>
+
+        <!-- Trip in Progress -->
+        <div id="progressSection" class="hidden">
+            <div class="card status-card progress-card">
+                <svg style="width: 32px; height: 32px; margin: 0 auto 16px; fill: #1d4ed8;" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12,6 12,12 16,14"/>
+                </svg>
+                <h3>Trip in Progress</h3>
+                <p>Your items are being transported</p>
+            </div>
+            
+            <div class="driver-card" id="progressDriverCard">
+                <!-- Driver info will be populated by JavaScript -->
+            </div>
+            
+            <div class="trip-details">
+                <h4>Trip Details</h4>
+                <div class="driver-specs">
+                    <div class="spec-row">
+                        <span>From:</span>
+                        <span id="tripFrom">-</span>
+                    </div>
+                    <div class="spec-row">
+                        <span>To:</span>
+                        <span id="tripTo">-</span>
+                    </div>
+                    <div class="spec-row">
+                        <span>Price:</span>
+                        <span id="tripPrice" style="color: #2563eb;">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Info -->
+        <div class="support-info hidden" id="supportInfo">
+            <p>Need help? Call support: <a href="tel:+27861234567">086 123 4567</a></p>
+        </div>
+    </div>
+
+    <script src="/js/client.js"></script>
+</body>
+</html>
