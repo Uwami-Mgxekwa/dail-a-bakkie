@@ -69,23 +69,26 @@ function validateForm() {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
     
+    const validEmails = ['vint@example.com', 'owami@gmail.com']; 
+    const validPasswords = ['123', '123'];
+
     if (!email) {
         showMessage('error', 'Please enter your email address');
         return false;
     }
     
-    if (!email.includes('@')) {
-        showMessage('error', 'Please enter a valid email address');
+    if (!validEmails.includes(email.toLowerCase())) {
+        showMessage('error', 'Email address not recognized.');
         return false;
     }
-    
+
     if (!password) {
         showMessage('error', 'Please enter your password');
         return false;
     }
     
-    if (password.length < 6) {
-        showMessage('error', 'Password must be at least 6 characters long');
+    if (!validPasswords.includes(password)) {
+        showMessage('error', 'Incorrect password. Please try again.');
         return false;
     }
     
@@ -109,7 +112,8 @@ function handleLogin() {
         // Redirect after success message
         setTimeout(() => {
             if (selectedRole === 'customer') {
-                window.location.href = 'client.html'; // Your main app
+                // MODIFIED: Updated the file path to include the 'pages' folder
+                window.location.href = 'pages/client.html';
             } else {
                 window.location.href = 'driver.html'; // Driver interface
             }
