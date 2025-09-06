@@ -106,16 +106,13 @@ function handleLogin() {
     setTimeout(() => {
         container.classList.remove('loading');
         
-        // Mock successful login
         showMessage('success', `Welcome back! Logging you in as ${selectedRole}...`);
         
-        // Redirect after success message
         setTimeout(() => {
             if (selectedRole === 'customer') {
-                // MODIFIED: Updated the file path to include the 'pages' folder
                 window.location.href = 'pages/client.html';
             } else {
-                window.location.href = 'driver.html'; // Driver interface
+                window.location.href = 'index.html'; // Driver interface
             }
         }, 2000);
         
