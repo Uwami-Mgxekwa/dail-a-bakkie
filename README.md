@@ -227,7 +227,6 @@ REACT_APP_FIREBASE_CONFIG=your_firebase_web_client_config_json
 REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_client_api_key
 
 Mobile (/mobile/.env):
-
 EXPO_PUBLIC_API_BASE_URL=http://your_local_ip:5000/api
 EXPO_PUBLIC_FIREBASE_CONFIG=your_firebase_web_client_config_json
 EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_client_api_key
