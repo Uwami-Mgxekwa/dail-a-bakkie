@@ -450,6 +450,7 @@ function openGoogleMaps() {
     if (currentTrip) {
         const destination = encodeURIComponent(currentTrip.dropoff.address);
         const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+        showNotification('Opening Google Maps...', 'info');
         window.open(url, '_blank');
     } else {
         showNotification('No active trip to navigate to', 'info');
@@ -460,6 +461,7 @@ function openWaze() {
     if (currentTrip) {
         const coords = currentTrip.dropoff.coords;
         const url = `https://waze.com/ul?ll=${coords[0]},${coords[1]}&navigate=yes`;
+        showNotification('Opening Waze...', 'info');
         window.open(url, '_blank');
     } else {
         showNotification('No active trip to navigate to', 'info');

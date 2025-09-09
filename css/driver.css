@@ -483,6 +483,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-height: 44px; /* Ensure consistent button height */
 }
 
 .nav-btn:hover, .location-btn:hover {
@@ -1284,4 +1285,11 @@
         box-shadow: none;
         border: 1px solid #000;
     }
+}
+
+/* Fix for navigation button icon sizes */
+.nav-btn svg, .location-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
