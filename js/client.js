@@ -45,8 +45,9 @@ let driverLocation = null;
 let etaCountdown = null;
 let progressInterval = null;
 
-// Vehicle pricing configuration
-const vehiclePricing = {
+// Vehicle pricing configuration (delegated to Pricing module)
+// Kept only as a fallback if Pricing is unavailable
+const vehiclePricing = typeof Pricing !== 'undefined' ? {} : {
     bakkie: { base: 50, perKm: 15, name: 'Bakkie' },
     van: { base: 70, perKm: 18, name: 'Van' },
     truck: { base: 100, perKm: 22, name: 'Truck' }
@@ -124,14 +125,17 @@ function selectVehicle(vehicle) {
     });
     document.querySelector(`[data-vehicle="${vehicle}"]`).classList.add('active');
     
+    // Resolve vehicle config from Pricing module
+    const cfg = (typeof Pricing !== 'undefined') ? Pricing.getVehicleConfig(vehicle) : vehiclePricing[vehicle];
+    
     // Update button text
-    selectedVehicleType.textContent = vehiclePricing[vehicle].name;
+    selectedVehicleType.textContent = cfg.name;
     
     // Update base fare display
-    document.getElementById('baseFare').textContent = `R${vehiclePricing[vehicle].base}`;
+    document.getElementById('baseFare').textContent = `R${cfg.base}`;
     
     // Update selected vehicle in trip details
-    document.getElementById('selectedVehicle').textContent = vehiclePricing[vehicle].name;
+    document.getElementById('selectedVehicle').textContent = cfg.name;
     
     updatePrice();
 }
@@ -263,13 +267,9 @@ function getCurrentLocation(type) {
 
 // Map Management
 function initializeMap() {
-    // Initialize map centered on Johannesburg
-    map = L.map('map').setView([-26.2041, 28.0473], 12);
-    
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    if (typeof AppMap !== 'undefined') {
+        map = AppMap.initMap();
+    }
 }
 
 function toggleMap() {
@@ -286,7 +286,7 @@ function toggleMap() {
         
         // Resize map after showing
         setTimeout(() => {
-            map.invalidateSize();
+            if (typeof AppMap !== 'undefined') AppMap.invalidate();
             updateMap();
         }, 100);
     } else {
@@ -303,11 +303,6 @@ function toggleMap() {
 function updateMap() {
     if (!map) return;
     
-    // Clear existing markers and route
-    if (pickupMarker) map.removeLayer(pickupMarker);
-    if (dropoffMarker) map.removeLayer(dropoffMarker);
-    if (routeLine) map.removeLayer(routeLine);
-    
     const pickup = pickupInput.value.trim();
     const dropoff = dropoffInput.value.trim();
     
@@ -317,35 +312,9 @@ function updateMap() {
         const dropoffCoords = findLocationCoords(dropoff);
         
         if (pickupCoords && dropoffCoords) {
-            // Add markers
-            pickupMarker = L.marker(pickupCoords, {
-                icon: L.divIcon({
-                    className: 'custom-marker pickup-marker',
-                    html: '<div class="marker-icon pickup">P</div>',
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
-                })
-            }).addTo(map);
-            
-            dropoffMarker = L.marker(dropoffCoords, {
-                icon: L.divIcon({
-                    className: 'custom-marker dropoff-marker',
-                    html: '<div class="marker-icon dropoff">D</div>',
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
-                })
-            }).addTo(map);
-            
-            // Add route line
-            routeLine = L.polyline([pickupCoords, dropoffCoords], {
-                color: '#2563eb',
-                weight: 4,
-                opacity: 0.7
-            }).addTo(map);
-            
-            // Fit map to show both markers
-            const group = new L.featureGroup([pickupMarker, dropoffMarker]);
-            map.fitBounds(group.getBounds().pad(0.1));
+            if (typeof AppMap !== 'undefined') {
+                AppMap.setRoute(pickupCoords, dropoffCoords);
+            }
         }
     }
 }
@@ -367,21 +336,16 @@ function findLocationCoords(locationName) {
 // Price Calculation
 function calculatePrice(pickup, dropoff) {
     if (!pickup || !dropoff) return 0;
-    
-    const pricing = vehiclePricing[selectedVehicle];
-    const basePrice = pricing.base;
-    const pricePerKm = pricing.perKm;
-    
     // Mock distance calculation (in real app, use routing service)
     const mockDistance = Math.floor(Math.random() * 20) + 2;
-    const distancePrice = mockDistance * pricePerKm;
-    
-    return {
-        base: basePrice,
-        distance: distancePrice,
-        total: basePrice + distancePrice,
-        distanceKm: mockDistance
-    };
+    if (typeof Pricing !== 'undefined') {
+        const res = Pricing.calculate(selectedVehicle, mockDistance);
+        return { base: res.base, distance: res.distance, total: res.total, distanceKm: mockDistance };
+    }
+    // Fallback to legacy inline pricing
+    const legacyCfg = vehiclePricing[selectedVehicle];
+    const distancePrice = mockDistance * legacyCfg.perKm;
+    return { base: legacyCfg.base, distance: distancePrice, total: legacyCfg.base + distancePrice, distanceKm: mockDistance };
 }
 
 function updatePrice() {
