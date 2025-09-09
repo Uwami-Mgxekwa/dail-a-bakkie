@@ -120,6 +120,69 @@ body {
     color: var(--text-primary);
 }
 
+/* Vehicle Selector */
+.vehicle-selector {
+    margin-bottom: 24px;
+}
+
+.vehicle-selector h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.vehicle-options {
+    display: flex;
+    gap: 8px;
+}
+
+.vehicle-option {
+    flex: 1;
+    padding: 12px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.vehicle-option:hover {
+    border-color: var(--border-focus);
+}
+
+.vehicle-option.active {
+    border-color: var(--border-focus);
+    background: var(--bg-accent);
+}
+
+.vehicle-option svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-accent);
+}
+
+.vehicle-option span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.vehicle-option small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Location Inputs */
+.location-inputs {
+    margin-bottom: 16px;
+}
+
 .input-group {
     margin-bottom: 16px;
     position: relative;
@@ -127,7 +190,7 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 12px 12px 12px 40px;
+    padding: 12px 80px 12px 40px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 16px;
@@ -150,6 +213,221 @@ body {
     width: 20px;
     height: 20px;
     stroke: var(--text-secondary);
+}
+
+.location-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--button-secondary);
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.location-btn:hover {
+    background: var(--button-secondary-hover);
+}
+
+.location-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-accent);
+}
+
+/* Location Suggestions */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.suggestion-item:hover {
+    background: var(--bg-accent);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-secondary);
+}
+
+.suggestion-text {
+    flex: 1;
+}
+
+.suggestion-primary {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.suggestion-secondary {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Map Container */
+.map-container {
+    margin: 16px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+#map {
+    height: 200px;
+    width: 100%;
+}
+
+.map-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.map-toggle:hover {
+    background: var(--button-secondary-hover);
+}
+
+.map-toggle svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-accent);
+}
+
+/* Trip Details */
+.trip-details {
+    background: var(--bg-accent);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    border: 1px solid var(--border-color);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.detail-row span:first-child {
+    color: var(--text-secondary);
+}
+
+.detail-row span:last-child {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Enhanced Price Estimate */
+.price-breakdown {
+    background: var(--bg-accent);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.price-row:last-child {
+    margin-bottom: 0;
+}
+
+.price-row.total {
+    border-top: 1px solid var(--border-color);
+    padding-top: 8px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.price-row span:first-child {
+    color: var(--text-secondary);
+}
+
+.price-row span:last-child {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.price-row.total span:last-child {
+    color: var(--text-accent);
+    font-size: 18px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.action-buttons .btn svg {
+    width: 18px;
+    height: 18px;
 }
 
 .price-estimate {
@@ -482,6 +760,43 @@ body {
         width: 36px;
         height: 36px;
     }
+}
+
+/* Custom Map Markers */
+.custom-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.marker-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.marker-icon.pickup {
+    background: var(--button-success);
+}
+
+.marker-icon.dropoff {
+    background: var(--button-danger);
+}
+
+/* Small Spinner for Location Button */
+.spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--bg-accent);
+    border-top: 2px solid var(--text-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 /* Animation for state changes */

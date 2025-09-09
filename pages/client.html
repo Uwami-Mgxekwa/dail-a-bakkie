@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="../css/client.css">
     <link rel="shortcut icon" href="../assets/icon.jpeg" type="image/x-icon">
     <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    <!-- Leaflet CSS for map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <!-- Theme Toggle Button -->
@@ -44,41 +48,136 @@
         <div class="card" id="locationCard">
             <h2>Where to?</h2>
             
-            <div class="input-group">
-                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                <input type="text" id="pickupLocation" placeholder="Pickup location" list="locations">
+            <!-- Vehicle Type Selection -->
+            <div class="vehicle-selector">
+                <h3>Choose Vehicle Type</h3>
+                <div class="vehicle-options">
+                    <div class="vehicle-option active" data-vehicle="bakkie" onclick="selectVehicle('bakkie')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
+                            <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
+                        </svg>
+                        <span>Bakkie</span>
+                        <small>R50 base</small>
+                    </div>
+                    <div class="vehicle-option" data-vehicle="van" onclick="selectVehicle('van')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"/>
+                            <polygon points="16,8 20,8 23,11 23,16 16,16"/>
+                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                        </svg>
+                        <span>Van</span>
+                        <small>R70 base</small>
+                    </div>
+                    <div class="vehicle-option" data-vehicle="truck" onclick="selectVehicle('truck')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"/>
+                            <polygon points="16,8 20,8 23,11 23,16 16,16"/>
+                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                            <line x1="8" y1="8" x2="8" y2="13"/>
+                            <line x1="13" y1="8" x2="13" y2="13"/>
+                        </svg>
+                        <span>Truck</span>
+                        <small>R100 base</small>
+                    </div>
+                </div>
             </div>
             
-            <div class="input-group">
-                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                <input type="text" id="dropoffLocation" placeholder="Drop-off location" list="locations">
+            <div class="location-inputs">
+                <div class="input-group">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <input type="text" id="pickupLocation" placeholder="Pickup location" autocomplete="off">
+                    <button class="location-btn" onclick="getCurrentLocation('pickup')" title="Use current location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </button>
+                    <div class="suggestions" id="pickupSuggestions"></div>
+                </div>
+                
+                <div class="input-group">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <input type="text" id="dropoffLocation" placeholder="Drop-off location" autocomplete="off">
+                    <button class="location-btn" onclick="getCurrentLocation('dropoff')" title="Use current location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                    </button>
+                    <div class="suggestions" id="dropoffSuggestions"></div>
+                </div>
             </div>
 
-            <datalist id="locations">
-                <option value="Hillbrow, Johannesburg">
-                <option value="Berea, Johannesburg">
-                <option value="Yeoville, Johannesburg">
-                <option value="CBD, Johannesburg">
-                <option value="Braamfontein, Johannesburg">
-                <option value="Newtown, Johannesburg">
-            </datalist>
+            <!-- Map Container -->
+            <div class="map-container hidden" id="mapContainer">
+                <div id="map"></div>
+                <button class="map-toggle" onclick="toggleMap()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/>
+                    </svg>
+                    Hide Map
+                </button>
+            </div>
+
+            <!-- Trip Details -->
+            <div class="trip-details hidden" id="tripDetails">
+                <div class="detail-row">
+                    <span>Distance:</span>
+                    <span id="tripDistance">-</span>
+                </div>
+                <div class="detail-row">
+                    <span>Duration:</span>
+                    <span id="tripDuration">-</span>
+                </div>
+                <div class="detail-row">
+                    <span>Vehicle:</span>
+                    <span id="selectedVehicle">Bakkie</span>
+                </div>
+            </div>
 
             <div class="price-estimate hidden" id="priceEstimate">
-                <span>Estimated Price:</span>
-                <span id="priceAmount">R0</span>
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Base fare:</span>
+                        <span id="baseFare">R50</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Distance:</span>
+                        <span id="distanceFare">R0</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total:</span>
+                        <span id="priceAmount">R50</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Request Button -->
-        <button class="btn btn-primary" id="requestBtn" disabled onclick="requestBakkie()">
-            Request Bakkie - R<span id="btnPrice">0</span>
-        </button>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="mapToggleBtn" onclick="toggleMap()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/>
+                </svg>
+                Show Map
+            </button>
+            <button class="btn btn-primary" id="requestBtn" disabled onclick="requestBakkie()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
+                    <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
+                </svg>
+                Request <span id="selectedVehicleType">Bakkie</span> - R<span id="btnPrice">0</span>
+            </button>
+        </div>
 
         <!-- Searching Status -->
         <div class="card status-card hidden" id="searchingCard">

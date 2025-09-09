@@ -27,7 +27,39 @@ function updateThemeIcon(theme) {
     }
 }
 
-// Mock data
+// Global Variables
+let selectedVehicle = 'bakkie';
+let currentDriver = null;
+let estimatedPrice = 0;
+let tripStatus = 'idle';
+let map = null;
+let pickupMarker = null;
+let dropoffMarker = null;
+let routeLine = null;
+let currentLocation = null;
+
+// Vehicle pricing configuration
+const vehiclePricing = {
+    bakkie: { base: 50, perKm: 15, name: 'Bakkie' },
+    van: { base: 70, perKm: 18, name: 'Van' },
+    truck: { base: 100, perKm: 22, name: 'Truck' }
+};
+
+// Mock location data for suggestions
+const locationSuggestions = [
+    { name: 'Hillbrow, Johannesburg', lat: -26.1934, lng: 28.0436, type: 'suburb' },
+    { name: 'Berea, Johannesburg', lat: -26.2041, lng: 28.0473, type: 'suburb' },
+    { name: 'Yeoville, Johannesburg', lat: -26.1884, lng: 28.0436, type: 'suburb' },
+    { name: 'CBD, Johannesburg', lat: -26.2041, lng: 28.0473, type: 'area' },
+    { name: 'Braamfontein, Johannesburg', lat: -26.1934, lng: 28.0436, type: 'suburb' },
+    { name: 'Newtown, Johannesburg', lat: -26.2041, lng: 28.0473, type: 'area' },
+    { name: 'Sandton, Johannesburg', lat: -26.1076, lng: 28.0567, type: 'area' },
+    { name: 'Rosebank, Johannesburg', lat: -26.1467, lng: 28.0436, type: 'suburb' },
+    { name: 'Melville, Johannesburg', lat: -26.1734, lng: 28.0436, type: 'suburb' },
+    { name: 'Parktown, Johannesburg', lat: -26.1734, lng: 28.0436, type: 'suburb' }
+];
+
+// Mock drivers data
 const mockDrivers = [
     {
         id: 1,
@@ -36,7 +68,9 @@ const mockDrivers = [
         vehicle: 'Toyota Hilux',
         plateNumber: 'GP 123 ABC',
         eta: '3-5 mins',
-        phone: '+27 82 123 4567'
+        phone: '+27 82 123 4567',
+        lat: -26.1934,
+        lng: 28.0436
     },
     {
         id: 2,
@@ -45,32 +79,286 @@ const mockDrivers = [
         vehicle: 'Ford Ranger',
         plateNumber: 'GP 456 DEF',
         eta: '2-4 mins',
-        phone: '+27 83 987 6543'
+        phone: '+27 83 987 6543',
+        lat: -26.2041,
+        lng: 28.0473
     }
 ];
 
-let currentDriver = null;
-let estimatedPrice = 0;
-let tripStatus = 'idle'; // idle, searching, matched, in-progress
-
-// DOM elements
+// DOM Elements
 const pickupInput = document.getElementById('pickupLocation');
 const dropoffInput = document.getElementById('dropoffLocation');
 const priceEstimate = document.getElementById('priceEstimate');
 const priceAmount = document.getElementById('priceAmount');
 const requestBtn = document.getElementById('requestBtn');
 const btnPrice = document.getElementById('btnPrice');
+const selectedVehicleType = document.getElementById('selectedVehicleType');
+const mapContainer = document.getElementById('mapContainer');
+const mapToggleBtn = document.getElementById('mapToggleBtn');
+const tripDetails = document.getElementById('tripDetails');
 
-// Event listeners
-pickupInput.addEventListener('input', updatePrice);
-dropoffInput.addEventListener('input', updatePrice);
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    initializeLocationInputs();
+    initializeMap();
+    updatePrice();
+});
 
+// Vehicle Selection
+function selectVehicle(vehicle) {
+    selectedVehicle = vehicle;
+    
+    // Update UI
+    document.querySelectorAll('.vehicle-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelector(`[data-vehicle="${vehicle}"]`).classList.add('active');
+    
+    // Update button text
+    selectedVehicleType.textContent = vehiclePricing[vehicle].name;
+    
+    // Update base fare display
+    document.getElementById('baseFare').textContent = `R${vehiclePricing[vehicle].base}`;
+    
+    // Update selected vehicle in trip details
+    document.getElementById('selectedVehicle').textContent = vehiclePricing[vehicle].name;
+    
+    updatePrice();
+}
+
+// Location Input Management
+function initializeLocationInputs() {
+    // Add event listeners for location inputs
+    pickupInput.addEventListener('input', (e) => {
+        handleLocationInput(e, 'pickup');
+    });
+    
+    dropoffInput.addEventListener('input', (e) => {
+        handleLocationInput(e, 'dropoff');
+    });
+    
+    // Add event listeners for location selection
+    pickupInput.addEventListener('blur', () => {
+        setTimeout(() => hideSuggestions('pickup'), 200);
+    });
+    
+    dropoffInput.addEventListener('blur', () => {
+        setTimeout(() => hideSuggestions('dropoff'), 200);
+    });
+}
+
+function handleLocationInput(event, type) {
+    const query = event.target.value.trim();
+    const suggestionsContainer = document.getElementById(`${type}Suggestions`);
+    
+    if (query.length < 2) {
+        hideSuggestions(type);
+        return;
+    }
+    
+    const filteredSuggestions = locationSuggestions.filter(location =>
+        location.name.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    showSuggestions(filteredSuggestions, type);
+    updatePrice();
+}
+
+function showSuggestions(suggestions, type) {
+    const container = document.getElementById(`${type}Suggestions`);
+    
+    if (suggestions.length === 0) {
+        hideSuggestions(type);
+        return;
+    }
+    
+    container.innerHTML = suggestions.map(suggestion => `
+        <div class="suggestion-item" onclick="selectLocation('${suggestion.name}', '${type}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <div class="suggestion-text">
+                <div class="suggestion-primary">${suggestion.name}</div>
+                <div class="suggestion-secondary">${suggestion.type}</div>
+            </div>
+        </div>
+    `).join('');
+    
+    container.style.display = 'block';
+}
+
+function hideSuggestions(type) {
+    const container = document.getElementById(`${type}Suggestions`);
+    container.style.display = 'none';
+}
+
+function selectLocation(locationName, type) {
+    const input = document.getElementById(`${type}Location`);
+    input.value = locationName;
+    hideSuggestions(type);
+    updatePrice();
+    updateMap();
+}
+
+// Current Location
+function getCurrentLocation(type) {
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by this browser.');
+        return;
+    }
+    
+    const button = event.target.closest('.location-btn');
+    const originalContent = button.innerHTML;
+    button.innerHTML = '<div class="spinner-small"></div>';
+    button.disabled = true;
+    
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            currentLocation = { lat, lng };
+            
+            // Reverse geocoding (simplified)
+            const locationName = `Current Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+            document.getElementById(`${type}Location`).value = locationName;
+            
+            button.innerHTML = originalContent;
+            button.disabled = false;
+            
+            updatePrice();
+            updateMap();
+        },
+        (error) => {
+            alert('Unable to retrieve your location. Please enter it manually.');
+            button.innerHTML = originalContent;
+            button.disabled = false;
+        }
+    );
+}
+
+// Map Management
+function initializeMap() {
+    // Initialize map centered on Johannesburg
+    map = L.map('map').setView([-26.2041, 28.0473], 12);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+}
+
+function toggleMap() {
+    const isHidden = mapContainer.classList.contains('hidden');
+    
+    if (isHidden) {
+        mapContainer.classList.remove('hidden');
+        mapToggleBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/>
+            </svg>
+            Hide Map
+        `;
+        
+        // Resize map after showing
+        setTimeout(() => {
+            map.invalidateSize();
+            updateMap();
+        }, 100);
+    } else {
+        mapContainer.classList.add('hidden');
+        mapToggleBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/>
+            </svg>
+            Show Map
+        `;
+    }
+}
+
+function updateMap() {
+    if (!map) return;
+    
+    // Clear existing markers and route
+    if (pickupMarker) map.removeLayer(pickupMarker);
+    if (dropoffMarker) map.removeLayer(dropoffMarker);
+    if (routeLine) map.removeLayer(routeLine);
+    
+    const pickup = pickupInput.value.trim();
+    const dropoff = dropoffInput.value.trim();
+    
+    if (pickup && dropoff) {
+        // Find coordinates for locations
+        const pickupCoords = findLocationCoords(pickup);
+        const dropoffCoords = findLocationCoords(dropoff);
+        
+        if (pickupCoords && dropoffCoords) {
+            // Add markers
+            pickupMarker = L.marker(pickupCoords, {
+                icon: L.divIcon({
+                    className: 'custom-marker pickup-marker',
+                    html: '<div class="marker-icon pickup">P</div>',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                })
+            }).addTo(map);
+            
+            dropoffMarker = L.marker(dropoffCoords, {
+                icon: L.divIcon({
+                    className: 'custom-marker dropoff-marker',
+                    html: '<div class="marker-icon dropoff">D</div>',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                })
+            }).addTo(map);
+            
+            // Add route line
+            routeLine = L.polyline([pickupCoords, dropoffCoords], {
+                color: '#2563eb',
+                weight: 4,
+                opacity: 0.7
+            }).addTo(map);
+            
+            // Fit map to show both markers
+            const group = new L.featureGroup([pickupMarker, dropoffMarker]);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+    }
+}
+
+function findLocationCoords(locationName) {
+    // Check if it's current location
+    if (locationName.includes('Current Location') && currentLocation) {
+        return [currentLocation.lat, currentLocation.lng];
+    }
+    
+    // Find in suggestions
+    const location = locationSuggestions.find(loc => 
+        loc.name.toLowerCase() === locationName.toLowerCase()
+    );
+    
+    return location ? [location.lat, location.lng] : null;
+}
+
+// Price Calculation
 function calculatePrice(pickup, dropoff) {
     if (!pickup || !dropoff) return 0;
-    const basePrice = 50;
-    const pricePerKm = 15;
+    
+    const pricing = vehiclePricing[selectedVehicle];
+    const basePrice = pricing.base;
+    const pricePerKm = pricing.perKm;
+    
+    // Mock distance calculation (in real app, use routing service)
     const mockDistance = Math.floor(Math.random() * 20) + 2;
-    return basePrice + (mockDistance * pricePerKm);
+    const distancePrice = mockDistance * pricePerKm;
+    
+    return {
+        base: basePrice,
+        distance: distancePrice,
+        total: basePrice + distancePrice,
+        distanceKm: mockDistance
+    };
 }
 
 function updatePrice() {
@@ -78,18 +366,34 @@ function updatePrice() {
     const dropoff = dropoffInput.value.trim();
     
     if (pickup && dropoff) {
-        estimatedPrice = calculatePrice(pickup, dropoff);
-        priceAmount.textContent = `R${estimatedPrice}`;
-        btnPrice.textContent = estimatedPrice;
+        const pricing = calculatePrice(pickup, dropoff);
+        estimatedPrice = pricing.total;
+        
+        // Update price display
+        document.getElementById('baseFare').textContent = `R${pricing.base}`;
+        document.getElementById('distanceFare').textContent = `R${pricing.distance}`;
+        priceAmount.textContent = `R${pricing.total}`;
+        btnPrice.textContent = pricing.total;
+        
+        // Update trip details
+        document.getElementById('tripDistance').textContent = `${pricing.distanceKm} km`;
+        document.getElementById('tripDuration').textContent = `${Math.ceil(pricing.distanceKm * 2)} mins`;
+        
+        // Show price estimate and trip details
         priceEstimate.classList.remove('hidden');
+        tripDetails.classList.remove('hidden');
+        
+        // Enable request button
         requestBtn.disabled = false;
     } else {
         priceEstimate.classList.add('hidden');
+        tripDetails.classList.add('hidden');
         requestBtn.disabled = true;
         btnPrice.textContent = '0';
     }
 }
 
+// Trip Management
 function requestBakkie() {
     if (!pickupInput.value || !dropoffInput.value) {
         alert('Please enter both pickup and drop-off locations');
@@ -129,7 +433,7 @@ function startTrip() {
 function showSection(section) {
     // Hide all sections
     document.getElementById('locationCard').style.display = section === 'idle' ? 'block' : 'none';
-    document.getElementById('requestBtn').style.display = section === 'idle' ? 'block' : 'none';
+    document.querySelector('.action-buttons').style.display = section === 'idle' ? 'flex' : 'none';
     document.getElementById('searchingCard').classList.toggle('hidden', section !== 'searching');
     document.getElementById('matchedSection').classList.toggle('hidden', section !== 'matched');
     document.getElementById('progressSection').classList.toggle('hidden', section !== 'in-progress');
@@ -180,8 +484,3 @@ function populateDriverCard(cardId, driver) {
         </div>
     `;
 }
-
-// Initialize the app
-document.addEventListener('DOMContentLoaded', function() {
-    initTheme();
-});
