@@ -1197,16 +1197,6 @@
         min-width: auto;
     }
     
-    .customer-info {
-        flex-direction: column;
-        text-align: center;
-        gap: 12px;
-    }
-    
-    .customer-actions {
-        justify-content: center;
-    }
-    
     .earnings-summary {
         grid-template-columns: 1fr;
     }
@@ -1220,52 +1210,73 @@
         text-align: center;
     }
     
-    .modal-content {
-        margin: 10px;
-        max-height: calc(100vh - 20px);
+    .customer-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .customer-actions {
+        justify-content: center;
     }
     
     .trip-summary {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: calc(100vh - 20px);
+    }
+    
+    .support-options {
+        gap: 12px;
+    }
 }
 
 @media (max-width: 480px) {
+    .header-content {
+        padding: 0 12px;
+    }
+    
+    .logo-img {
+        width: 32px;
+        height: 32px;
+    }
+    
     .logo h1 {
-        display: none;
+        font-size: 1.1rem;
     }
     
-    .header-actions {
-        gap: 4px;
+    .main {
+        padding: 12px;
     }
     
-    .header-btn span {
-        display: none;
+    .status-card, .quick-stats-card, .vehicle-card, .navigation-card {
+        padding: 16px;
     }
     
     .trip-summary {
         grid-template-columns: 1fr;
     }
     
-    .status-header {
-        flex-direction: column;
-        gap: 12px;
-        align-items: stretch;
-    }
-    
-    .status-info {
+    .nav-info {
         grid-template-columns: 1fr;
     }
 }
 
 /* Print Styles */
 @media print {
-    .header, .modal, .nav-actions, .request-actions, .trip-actions {
+    .header, .modal, .trip-actions, .request-actions, .nav-actions {
         display: none !important;
     }
     
     .main {
         padding: 0;
+        max-width: none;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
     }
     
     .status-card, .quick-stats-card, .vehicle-card {
