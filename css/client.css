@@ -82,19 +82,55 @@ body {
     margin-bottom: 40px;
 }
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
 .header h1 {
     font-size: 24px;
     font-weight: bold;
     color: var(--text-primary);
-    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.header-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.header-btn:hover {
+    background: var(--button-secondary-hover);
+    border-color: var(--border-focus);
+}
+
+.header-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-accent);
 }
 
 .header p {
     color: var(--text-secondary);
+    margin: 0;
 }
 
 .truck-icon {
@@ -408,6 +444,309 @@ body {
 .price-row.total span:last-child {
     color: var(--text-accent);
     font-size: 18px;
+}
+
+.price-row.payment-info {
+    border-top: 1px solid var(--border-color);
+    padding-top: 8px;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.price-row.payment-info span:last-child {
+    color: var(--text-accent);
+    font-weight: 500;
+}
+
+/* Payment Methods */
+.payment-methods {
+    margin: 16px 0;
+}
+
+.payment-methods h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.payment-options {
+    display: flex;
+    gap: 8px;
+}
+
+.payment-option {
+    flex: 1;
+    padding: 12px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.payment-option:hover {
+    border-color: var(--border-focus);
+}
+
+.payment-option.active {
+    border-color: var(--border-focus);
+    background: var(--bg-accent);
+}
+
+.payment-option svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-accent);
+}
+
+.payment-option span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--button-secondary-hover);
+}
+
+.modal-close svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-secondary);
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Trip History */
+.trip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trip-item {
+    background: var(--bg-accent);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.trip-item:hover {
+    background: var(--button-secondary-hover);
+    border-color: var(--border-focus);
+}
+
+.trip-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.trip-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.trip-price {
+    font-weight: 600;
+    color: var(--text-accent);
+}
+
+.trip-route {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.trip-route svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-secondary);
+}
+
+.trip-locations {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.trip-location {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.trip-location.pickup {
+    font-weight: 500;
+}
+
+.trip-location.dropoff {
+    color: var(--text-secondary);
+}
+
+.trip-details-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Favorites */
+.favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.favorite-item {
+    background: var(--bg-accent);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.favorite-item:hover {
+    background: var(--button-secondary-hover);
+    border-color: var(--border-focus);
+}
+
+.favorite-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--button-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.favorite-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-accent);
+}
+
+.favorite-info {
+    flex: 1;
+}
+
+.favorite-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.favorite-address {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.favorite-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.favorite-btn:hover {
+    background: var(--button-secondary-hover);
+}
+
+.favorite-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-secondary);
+}
+
+.favorite-btn.delete:hover svg {
+    stroke: var(--button-danger);
 }
 
 /* Action Buttons */
@@ -739,6 +1078,26 @@ body {
         flex-direction: column;
         gap: 12px;
         text-align: center;
+    }
+
+    .header-top {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .header-actions {
+        justify-content: center;
+    }
+
+    .payment-options {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modal-content {
+        margin: 10px;
+        max-height: 90vh;
     }
 }
 

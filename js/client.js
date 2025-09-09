@@ -29,6 +29,7 @@ function updateThemeIcon(theme) {
 
 // Global Variables
 let selectedVehicle = 'bakkie';
+let selectedPayment = 'cash';
 let currentDriver = null;
 let estimatedPrice = 0;
 let tripStatus = 'idle';
@@ -37,6 +38,8 @@ let pickupMarker = null;
 let dropoffMarker = null;
 let routeLine = null;
 let currentLocation = null;
+let tripHistory = [];
+let favorites = [];
 
 // Vehicle pricing configuration
 const vehiclePricing = {
@@ -102,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initializeLocationInputs();
     initializeMap();
+    loadTripHistory();
+    loadFavorites();
     updatePrice();
 });
 
@@ -125,6 +130,20 @@ function selectVehicle(vehicle) {
     document.getElementById('selectedVehicle').textContent = vehiclePricing[vehicle].name;
     
     updatePrice();
+}
+
+// Payment Selection
+function selectPayment(payment) {
+    selectedPayment = payment;
+    
+    // Update UI
+    document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    document.querySelector(`[data-payment="${payment}"]`).classList.add('active');
+    
+    // Update payment method display
+    document.getElementById('paymentMethod').textContent = payment.charAt(0).toUpperCase() + payment.slice(1);
 }
 
 // Location Input Management
@@ -379,9 +398,10 @@ function updatePrice() {
         document.getElementById('tripDistance').textContent = `${pricing.distanceKm} km`;
         document.getElementById('tripDuration').textContent = `${Math.ceil(pricing.distanceKm * 2)} mins`;
         
-        // Show price estimate and trip details
+        // Show price estimate, trip details, and payment methods
         priceEstimate.classList.remove('hidden');
         tripDetails.classList.remove('hidden');
+        document.getElementById('paymentMethods').classList.remove('hidden');
         
         // Enable request button
         requestBtn.disabled = false;
@@ -428,6 +448,25 @@ function startTrip() {
     document.getElementById('tripFrom').textContent = pickupInput.value;
     document.getElementById('tripTo').textContent = dropoffInput.value;
     document.getElementById('tripPrice').textContent = `R${estimatedPrice}`;
+    
+    // Simulate trip completion after 10 seconds
+    setTimeout(() => {
+        addToTripHistory(
+            pickupInput.value,
+            dropoffInput.value,
+            estimatedPrice,
+            vehiclePricing[selectedVehicle].name,
+            currentDriver.name
+        );
+        
+        // Show completion message
+        alert(`Trip completed! R${estimatedPrice} paid via ${selectedPayment}. Thank you for using Dial a Bakkie!`);
+        
+        // Reset to idle state
+        tripStatus = 'idle';
+        currentDriver = null;
+        showSection('idle');
+    }, 10000);
 }
 
 function showSection(section) {
@@ -483,4 +522,219 @@ function populateDriverCard(cardId, driver) {
             </div>
         </div>
     `;
+}
+
+// Trip History Management
+function loadTripHistory() {
+    const saved = localStorage.getItem('dial-a-bakkie-trip-history');
+    tripHistory = saved ? JSON.parse(saved) : [
+        {
+            id: 1,
+            date: '2024-01-15',
+            pickup: 'Hillbrow, Johannesburg',
+            dropoff: 'Sandton, Johannesburg',
+            price: 120,
+            vehicle: 'Bakkie',
+            driver: 'Thabo Mthembu',
+            status: 'completed'
+        },
+        {
+            id: 2,
+            date: '2024-01-12',
+            pickup: 'Berea, Johannesburg',
+            dropoff: 'Rosebank, Johannesburg',
+            price: 85,
+            vehicle: 'Van',
+            driver: 'Sarah Ndlovu',
+            status: 'completed'
+        }
+    ];
+}
+
+function saveTripHistory() {
+    localStorage.setItem('dial-a-bakkie-trip-history', JSON.stringify(tripHistory));
+}
+
+function addToTripHistory(pickup, dropoff, price, vehicle, driver) {
+    const trip = {
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        pickup: pickup,
+        dropoff: dropoff,
+        price: price,
+        vehicle: vehicle,
+        driver: driver,
+        status: 'completed'
+    };
+    
+    tripHistory.unshift(trip);
+    if (tripHistory.length > 20) {
+        tripHistory = tripHistory.slice(0, 20); // Keep only last 20 trips
+    }
+    saveTripHistory();
+}
+
+function showTripHistory() {
+    const modal = document.getElementById('tripHistoryModal');
+    const tripList = document.getElementById('tripList');
+    
+    if (tripHistory.length === 0) {
+        tripList.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                <svg style="width: 48px; height: 48px; margin: 0 auto 16px; stroke: var(--text-secondary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                </svg>
+                <p>No trip history yet</p>
+                <p style="font-size: 14px;">Your completed trips will appear here</p>
+            </div>
+        `;
+    } else {
+        tripList.innerHTML = tripHistory.map(trip => `
+            <div class="trip-item" onclick="selectTripFromHistory('${trip.pickup}', '${trip.dropoff}')">
+                <div class="trip-item-header">
+                    <span class="trip-date">${formatDate(trip.date)}</span>
+                    <span class="trip-price">R${trip.price}</span>
+                </div>
+                <div class="trip-route">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <div class="trip-locations">
+                        <div class="trip-location pickup">${trip.pickup}</div>
+                        <div class="trip-location dropoff">${trip.dropoff}</div>
+                    </div>
+                </div>
+                <div class="trip-details-row">
+                    <span>${trip.vehicle} • ${trip.driver}</span>
+                    <span>${trip.status}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    modal.classList.remove('hidden');
+}
+
+// Favorites Management
+function loadFavorites() {
+    const saved = localStorage.getItem('dial-a-bakkie-favorites');
+    favorites = saved ? JSON.parse(saved) : [
+        {
+            id: 1,
+            name: 'Home',
+            address: 'Hillbrow, Johannesburg',
+            type: 'home'
+        },
+        {
+            id: 2,
+            name: 'Work',
+            address: 'Sandton, Johannesburg',
+            type: 'work'
+        }
+    ];
+}
+
+function saveFavorites() {
+    localStorage.setItem('dial-a-bakkie-favorites', JSON.stringify(favorites));
+}
+
+function showFavorites() {
+    const modal = document.getElementById('favoritesModal');
+    const favoritesList = document.getElementById('favoritesList');
+    
+    if (favorites.length === 0) {
+        favoritesList.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                <svg style="width: 48px; height: 48px; margin: 0 auto 16px; stroke: var(--text-secondary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <p>No favorite locations</p>
+                <p style="font-size: 14px;">Add locations to your favorites for quick access</p>
+            </div>
+        `;
+    } else {
+        favoritesList.innerHTML = favorites.map(favorite => `
+            <div class="favorite-item">
+                <div class="favorite-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <div class="favorite-info">
+                    <div class="favorite-name">${favorite.name}</div>
+                    <div class="favorite-address">${favorite.address}</div>
+                </div>
+                <div class="favorite-actions">
+                    <button class="favorite-btn" onclick="useFavoriteLocation('${favorite.address}')" title="Use this location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </button>
+                    <button class="favorite-btn delete" onclick="removeFavorite(${favorite.id})" title="Remove from favorites">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3,6 5,6 21,6"/>
+                            <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    modal.classList.remove('hidden');
+}
+
+function useFavoriteLocation(address) {
+    // Check which input is focused or use pickup by default
+    const activeElement = document.activeElement;
+    if (activeElement.id === 'dropoffLocation') {
+        dropoffInput.value = address;
+    } else {
+        pickupInput.value = address;
+    }
+    
+    updatePrice();
+    updateMap();
+    closeModal('favoritesModal');
+}
+
+function removeFavorite(id) {
+    favorites = favorites.filter(fav => fav.id !== id);
+    saveFavorites();
+    showFavorites(); // Refresh the modal
+}
+
+function selectTripFromHistory(pickup, dropoff) {
+    pickupInput.value = pickup;
+    dropoffInput.value = dropoff;
+    updatePrice();
+    updateMap();
+    closeModal('tripHistoryModal');
+}
+
+// Modal Management
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// Utility Functions
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+    } else {
+        return date.toLocaleDateString('en-ZA', { 
+            day: 'numeric', 
+            month: 'short' 
+        });
+    }
 }

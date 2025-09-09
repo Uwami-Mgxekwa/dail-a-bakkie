@@ -34,13 +34,28 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>
-                <svg class="truck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
-                    <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
-                </svg>
-                Dial a Bakkie
-            </h1>
+            <div class="header-top">
+                <h1>
+                    <svg class="truck-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
+                        <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
+                    </svg>
+                    Dial a Bakkie
+                </h1>
+                <div class="header-actions">
+                    <button class="header-btn" onclick="showTripHistory()" title="Trip History">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                        </svg>
+                    </button>
+                    <button class="header-btn" onclick="showFavorites()" title="Favorites">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             <p>Quick and reliable furniture & goods transport</p>
         </div>
 
@@ -144,6 +159,37 @@
                 </div>
             </div>
 
+            <!-- Payment Method Selection -->
+            <div class="payment-methods hidden" id="paymentMethods">
+                <h3>Payment Method</h3>
+                <div class="payment-options">
+                    <div class="payment-option active" data-payment="cash" onclick="selectPayment('cash')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"/>
+                            <path d="M16 8h.01"/>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                            <path d="M3 5c0 1.66 4 3 9 3s9-1.34 9-3"/>
+                        </svg>
+                        <span>Cash</span>
+                    </div>
+                    <div class="payment-option" data-payment="card" onclick="selectPayment('card')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10"/>
+                        </svg>
+                        <span>Card</span>
+                    </div>
+                    <div class="payment-option" data-payment="wallet" onclick="selectPayment('wallet')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                            <line x1="10" y1="12" x2="14" y2="12"/>
+                        </svg>
+                        <span>Wallet</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="price-estimate hidden" id="priceEstimate">
                 <div class="price-breakdown">
                     <div class="price-row">
@@ -157,6 +203,10 @@
                     <div class="price-row total">
                         <span>Total:</span>
                         <span id="priceAmount">R50</span>
+                    </div>
+                    <div class="price-row payment-info">
+                        <span>Payment:</span>
+                        <span id="paymentMethod">Cash</span>
                     </div>
                 </div>
             </div>
@@ -241,6 +291,46 @@
         <!-- Support Info -->
         <div class="support-info hidden" id="supportInfo">
             <p>Need help? Call support: <a href="tel:+27861234567">086 123 4567</a></p>
+        </div>
+    </div>
+
+    <!-- Trip History Modal -->
+    <div class="modal hidden" id="tripHistoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Trip History</h2>
+                <button class="modal-close" onclick="closeModal('tripHistoryModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="trip-list" id="tripList">
+                    <!-- Trip history items will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="modal hidden" id="favoritesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Favorite Locations</h2>
+                <button class="modal-close" onclick="closeModal('favoritesModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="favorites-list" id="favoritesList">
+                    <!-- Favorite locations will be populated here -->
+                </div>
+            </div>
         </div>
     </div>
 
