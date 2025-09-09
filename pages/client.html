@@ -244,6 +244,51 @@
                 <p>Your bakkie is on the way</p>
             </div>
             
+            <!-- Real-time Tracking Card -->
+            <div class="card tracking-card" id="trackingCard">
+                <div class="tracking-header">
+                    <h3>Driver is arriving</h3>
+                    <div class="eta-display">
+                        <span class="eta-time" id="etaTime">3 mins</span>
+                        <span class="eta-label">ETA</span>
+                    </div>
+                </div>
+                
+                <div class="tracking-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Driver en route</span>
+                        <span>Arriving soon</span>
+                    </div>
+                </div>
+                
+                <div class="tracking-details">
+                    <div class="tracking-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <div class="tracking-info">
+                            <span class="tracking-label">Current Location</span>
+                            <span class="tracking-value" id="driverLocation">Approaching pickup point</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tracking-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <div class="tracking-info">
+                            <span class="tracking-label">Last Updated</span>
+                            <span class="tracking-value" id="lastUpdated">Just now</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="driver-card" id="driverCard">
                 <!-- Driver info will be populated by JavaScript -->
             </div>

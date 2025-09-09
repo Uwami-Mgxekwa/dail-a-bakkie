@@ -40,6 +40,10 @@ let routeLine = null;
 let currentLocation = null;
 let tripHistory = [];
 let favorites = [];
+let trackingInterval = null;
+let driverLocation = null;
+let etaCountdown = null;
+let progressInterval = null;
 
 // Vehicle pricing configuration
 const vehiclePricing = {
@@ -430,17 +434,20 @@ function requestBakkie() {
         tripStatus = 'matched';
         showSection('matched');
         populateDriverCard('driverCard', currentDriver);
+        startRealTimeTracking();
     }, 3000);
 }
 
 function cancelRequest() {
     tripStatus = 'idle';
     currentDriver = null;
+    stopRealTimeTracking();
     showSection('idle');
 }
 
 function startTrip() {
     tripStatus = 'in-progress';
+    stopRealTimeTracking(); // Stop tracking when trip starts
     showSection('in-progress');
     populateDriverCard('progressDriverCard', currentDriver);
     
@@ -737,4 +744,179 @@ function formatDate(dateString) {
             month: 'short' 
         });
     }
+}
+
+// Real-time Tracking Functions
+function startRealTimeTracking() {
+    if (!currentDriver) return;
+    
+    // Initialize driver location (start from driver's current position)
+    driverLocation = {
+        lat: currentDriver.lat,
+        lng: currentDriver.lng,
+        progress: 0
+    };
+    
+    // Start ETA countdown (3-5 minutes)
+    const initialEta = Math.floor(Math.random() * 3) + 3; // 3-5 minutes
+    etaCountdown = initialEta * 60; // Convert to seconds
+    
+    // Update ETA display
+    updateETADisplay();
+    
+    // Start tracking interval (update every 2 seconds)
+    trackingInterval = setInterval(() => {
+        updateDriverLocation();
+        updateETADisplay();
+        updateProgressBar();
+        updateLastUpdated();
+    }, 2000);
+    
+    // Start progress bar animation
+    startProgressAnimation();
+}
+
+function stopRealTimeTracking() {
+    if (trackingInterval) {
+        clearInterval(trackingInterval);
+        trackingInterval = null;
+    }
+    if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
+    etaCountdown = null;
+    driverLocation = null;
+}
+
+function updateDriverLocation() {
+    if (!driverLocation) return;
+    
+    // Simulate driver movement towards pickup location
+    const pickupCoords = findLocationCoords(pickupInput.value);
+    if (!pickupCoords) return;
+    
+    // Calculate distance to pickup
+    const distance = calculateDistance(
+        driverLocation.lat, driverLocation.lng,
+        pickupCoords[0], pickupCoords[1]
+    );
+    
+    // Move driver closer to pickup (simulate movement)
+    if (distance > 0.1) { // 0.1 km = 100m
+        const moveFactor = 0.02; // Move 20m closer each update
+        const latDiff = pickupCoords[0] - driverLocation.lat;
+        const lngDiff = pickupCoords[1] - driverLocation.lng;
+        
+        driverLocation.lat += latDiff * moveFactor;
+        driverLocation.lng += lngDiff * moveFactor;
+        driverLocation.progress = Math.min(95, driverLocation.progress + 2);
+    } else {
+        // Driver has arrived
+        driverLocation.progress = 100;
+        showStatusUpdate('Driver has arrived at pickup location!', 'success');
+    }
+    
+    // Update driver location text
+    updateDriverLocationText();
+}
+
+function updateETADisplay() {
+    if (etaCountdown === null) return;
+    
+    const minutes = Math.floor(etaCountdown / 60);
+    const seconds = etaCountdown % 60;
+    
+    if (etaCountdown <= 0) {
+        document.getElementById('etaTime').textContent = 'Arrived';
+        showStatusUpdate('Your driver has arrived!', 'success');
+    } else if (minutes > 0) {
+        document.getElementById('etaTime').textContent = `${minutes} min${minutes > 1 ? 's' : ''}`;
+    } else {
+        document.getElementById('etaTime').textContent = `${seconds}s`;
+    }
+    
+    etaCountdown--;
+}
+
+function updateProgressBar() {
+    if (!driverLocation) return;
+    
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+        progressFill.style.width = `${driverLocation.progress}%`;
+    }
+}
+
+function updateDriverLocationText() {
+    if (!driverLocation) return;
+    
+    const locationText = document.getElementById('driverLocation');
+    if (!locationText) return;
+    
+    const distance = calculateDistance(
+        driverLocation.lat, driverLocation.lng,
+        findLocationCoords(pickupInput.value)[0],
+        findLocationCoords(pickupInput.value)[1]
+    );
+    
+    if (distance < 0.1) {
+        locationText.textContent = 'At pickup location';
+    } else if (distance < 0.5) {
+        locationText.textContent = 'Approaching pickup point';
+    } else if (distance < 1) {
+        locationText.textContent = 'Near pickup area';
+    } else {
+        locationText.textContent = 'En route to pickup';
+    }
+}
+
+function updateLastUpdated() {
+    const lastUpdated = document.getElementById('lastUpdated');
+    if (lastUpdated) {
+        lastUpdated.textContent = 'Just now';
+    }
+}
+
+function startProgressAnimation() {
+    // Animate progress bar from 0 to current progress
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+        progressFill.style.width = '0%';
+        setTimeout(() => {
+            progressFill.style.width = `${driverLocation.progress}%`;
+        }, 100);
+    }
+}
+
+function showStatusUpdate(message, type = 'info') {
+    // Create status update element
+    const statusUpdate = document.createElement('div');
+    statusUpdate.className = `status-update ${type}`;
+    statusUpdate.textContent = message;
+    
+    // Insert after tracking card
+    const trackingCard = document.getElementById('trackingCard');
+    if (trackingCard && trackingCard.parentNode) {
+        trackingCard.parentNode.insertBefore(statusUpdate, trackingCard.nextSibling);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            if (statusUpdate.parentNode) {
+                statusUpdate.parentNode.removeChild(statusUpdate);
+            }
+        }, 5000);
+    }
+}
+
+function calculateDistance(lat1, lng1, lat2, lng2) {
+    // Simple distance calculation (not perfectly accurate but good for demo)
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
 }

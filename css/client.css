@@ -749,6 +749,226 @@ body {
     stroke: var(--button-danger);
 }
 
+/* Real-time Tracking Styles */
+.tracking-card {
+    background: linear-gradient(135deg, var(--bg-accent) 0%, var(--bg-secondary) 100%);
+    border: 2px solid var(--border-focus);
+    margin-bottom: 16px;
+    animation: trackingPulse 2s ease-in-out infinite;
+}
+
+@keyframes trackingPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.1);
+    }
+}
+
+.tracking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tracking-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.eta-display {
+    text-align: right;
+}
+
+.eta-time {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-accent);
+    line-height: 1;
+}
+
+.eta-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tracking-progress {
+    margin-bottom: 16px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--button-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--text-accent) 0%, var(--button-success) 100%);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.5s ease;
+    animation: progressShimmer 2s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.tracking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tracking-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.tracking-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-accent);
+    flex-shrink: 0;
+}
+
+.tracking-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tracking-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tracking-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Live Map Updates */
+.live-map {
+    position: relative;
+    overflow: hidden;
+}
+
+.driver-marker {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: var(--button-success);
+    border: 3px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    animation: driverPulse 1.5s ease-in-out infinite;
+    z-index: 1000;
+}
+
+@keyframes driverPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+}
+
+.driver-marker::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--button-success);
+    border-radius: 50%;
+    animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* Status Updates */
+.status-update {
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    animation: slideInFromTop 0.3s ease-out;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-update.success {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+}
+
+.status-update.info {
+    background: var(--bg-accent);
+    border-color: var(--border-focus);
+    color: var(--text-accent);
+}
+
+.status-update.warning {
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+    color: var(--warning-text);
+}
+
 /* Action Buttons */
 .action-buttons {
     display: flex;
