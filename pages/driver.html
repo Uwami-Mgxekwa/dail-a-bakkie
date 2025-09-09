@@ -38,6 +38,20 @@
                     </svg>
                     Earnings
                 </button>
+                <button class="header-btn" onclick="showNotifications()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    Alerts
+                    <span id="notificationBadge" class="notification-badge hidden">3</span>
+                </button>
+                <button class="header-btn" onclick="showSupport()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Support
+                </button>
                 <button class="header-btn" onclick="showProfile()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -51,31 +65,145 @@
 
     <!-- Main Content -->
     <main class="main">
-        <!-- Status Section -->
-        <section id="statusSection" class="section">
-            <div class="status-card">
-                <div class="status-header">
-                    <h2>Driver Status</h2>
-                    <div class="status-toggle">
-                        <button id="statusToggle" class="status-btn offline" onclick="toggleStatus()">
-                            <span class="status-indicator"></span>
-                            <span class="status-text">Go Online</span>
-                        </button>
+        <!-- Dashboard Overview Section -->
+        <section id="dashboardSection" class="section">
+            <div class="dashboard-grid">
+                <!-- Driver Status Card -->
+                <div class="status-card">
+                    <div class="status-header">
+                        <h2>Driver Status</h2>
+                        <div class="status-toggle">
+                            <button id="statusToggle" class="status-btn offline" onclick="toggleStatus()">
+                                <span class="status-indicator"></span>
+                                <span class="status-text">Go Online</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="status-info">
+                        <div class="info-item">
+                            <span class="info-label">Today's Trips:</span>
+                            <span class="info-value" id="todayTrips">0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Today's Earnings:</span>
+                            <span class="info-value" id="todayEarnings">R0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Rating:</span>
+                            <span class="info-value" id="driverRating">4.8 ⭐</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Hours Online:</span>
+                            <span class="info-value" id="hoursOnline">0h 0m</span>
+                        </div>
                     </div>
                 </div>
-                <div class="status-info">
-                    <div class="info-item">
-                        <span class="info-label">Today's Trips:</span>
-                        <span class="info-value" id="todayTrips">0</span>
+
+                <!-- Quick Stats Card -->
+                <div class="quick-stats-card">
+                    <h3>Quick Stats</h3>
+                    <div class="quick-stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-value" id="weeklyTrips">12</span>
+                            <span class="stat-label">This Week</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="avgRating">4.8</span>
+                            <span class="stat-label">Avg Rating</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="completionRate">95%</span>
+                            <span class="stat-label">Completion Rate</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value" id="totalEarnings">R2,450</span>
+                            <span class="stat-label">Total Earned</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Today's Earnings:</span>
-                        <span class="info-value" id="todayEarnings">R0</span>
+                </div>
+
+                <!-- Vehicle Status Card -->
+                <div class="vehicle-card">
+                    <h3>Vehicle Status</h3>
+                    <div class="vehicle-info">
+                        <div class="vehicle-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2"/>
+                                <path d="M9 17v-6h8"/>
+                            </svg>
+                        </div>
+                        <div class="vehicle-details">
+                            <h4 id="vehicleModel">Toyota Hilux 2020</h4>
+                            <p id="vehiclePlate">GP 123 ABC</p>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Rating:</span>
-                        <span class="info-value" id="driverRating">4.8 ⭐</span>
+                    <div class="vehicle-checks">
+                        <div class="check-item">
+                            <span>Fuel Level</span>
+                            <div class="check-status good" title="85% Full"></div>
+                        </div>
+                        <div class="check-item">
+                            <span>Insurance</span>
+                            <div class="check-status good" title="Valid until Dec 2024"></div>
+                        </div>
+                        <div class="check-item">
+                            <span>License</span>
+                            <div class="check-status good" title="Valid until Mar 2025"></div>
+                        </div>
+                        <div class="check-item">
+                            <span>Maintenance</span>
+                            <div class="check-status warning" title="Service due in 2 weeks"></div>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Navigation Helper Card -->
+            <div class="navigation-card">
+                <div class="nav-header">
+                    <h3>Navigation Helper</h3>
+                    <button class="location-btn" onclick="getCurrentLocation()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                        Update Location
+                    </button>
+                </div>
+                <div class="nav-info">
+                    <div class="nav-item">
+                        <span class="nav-value" id="currentSpeed">0</span>
+                        <span class="nav-label">km/h</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-value" id="distanceToNext">--</span>
+                        <span class="nav-label">Next Stop</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-value" id="trafficStatus">Good</span>
+                        <span class="nav-label">Traffic</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-value" id="weatherStatus">Sunny</span>
+                        <span class="nav-label">Weather</span>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button class="nav-btn" onclick="openGoogleMaps()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Google Maps
+                    </button>
+                    <button class="nav-btn" onclick="openWaze()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        </svg>
+                        Waze
+                    </button>
                 </div>
             </div>
         </section>
@@ -101,8 +229,22 @@
                             <h3 id="customerName">John Doe</h3>
                             <p id="customerPhone">+27 82 123 4567</p>
                             <div class="customer-rating">
-                                <span>4.9 ⭐</span>
+                                <span id="customerRating">4.9 ⭐</span>
                             </div>
+                        </div>
+                        <div class="customer-actions">
+                            <button class="contact-btn" onclick="callCustomer()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                                Call
+                            </button>
+                            <button class="contact-btn" onclick="messageCustomer()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                Message
+                            </button>
                         </div>
                     </div>
                     <div class="trip-info">
@@ -116,6 +258,7 @@
                             <div class="location-details">
                                 <span class="location-label">Pickup:</span>
                                 <span class="location-address" id="pickupAddress">123 Main St, Johannesburg</span>
+                                <span class="location-time" id="pickupTime">Now</span>
                             </div>
                         </div>
                         <div class="location-item">
@@ -128,6 +271,7 @@
                             <div class="location-details">
                                 <span class="location-label">Drop-off:</span>
                                 <span class="location-address" id="dropoffAddress">456 Oak Ave, Sandton</span>
+                                <span class="location-time" id="dropoffTime">+25 min</span>
                             </div>
                         </div>
                     </div>
@@ -137,7 +281,7 @@
                             <span class="summary-value" id="tripDistance">12.5 km</span>
                         </div>
                         <div class="summary-item">
-                            <span class="summary-label">Est. Duration:</span>
+                            <span class="summary-label">Duration:</span>
                             <span class="summary-value" id="tripDuration">25 min</span>
                         </div>
                         <div class="summary-item">
@@ -180,7 +324,7 @@
                 <div class="trip-content">
                     <div class="customer-location">
                         <div class="location-header">
-                            <h3>Customer Location</h3>
+                            <h3 id="currentLocationTitle">Customer Location</h3>
                             <button class="location-btn" onclick="getCurrentLocation()">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="3"/>
@@ -214,16 +358,23 @@
                             </svg>
                             Complete Trip
                         </button>
+                        <button class="trip-btn emergency" onclick="emergencyAlert()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                            Emergency
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Modals -->
         <!-- Earnings Modal -->
         <div id="earningsModal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Earnings</h2>
+                    <h2>Earnings Overview</h2>
                     <button class="modal-close" onclick="closeModal('earningsModal')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -235,15 +386,15 @@
                     <div class="earnings-summary">
                         <div class="earnings-item">
                             <span class="earnings-label">Today:</span>
-                            <span class="earnings-value" id="earningsToday">R0</span>
+                            <span class="earnings-value" id="earningsToday">R450</span>
                         </div>
                         <div class="earnings-item">
                             <span class="earnings-label">This Week:</span>
-                            <span class="earnings-value" id="earningsWeek">R0</span>
+                            <span class="earnings-value" id="earningsWeek">R2,450</span>
                         </div>
                         <div class="earnings-item">
                             <span class="earnings-label">This Month:</span>
-                            <span class="earnings-value" id="earningsMonth">R0</span>
+                            <span class="earnings-value" id="earningsMonth">R8,750</span>
                         </div>
                     </div>
                     <div class="earnings-chart">
@@ -277,15 +428,15 @@
                             </svg>
                         </div>
                         <div class="profile-details">
-                            <h3 id="driverName">Driver Name</h3>
+                            <h3 id="driverName">Thabo Mthembu</h3>
                             <p id="driverPhone">+27 82 123 4567</p>
-                            <p id="driverEmail">driver@example.com</p>
+                            <p id="driverEmail">thabo@example.com</p>
                         </div>
                     </div>
                     <div class="profile-stats">
                         <div class="stat-item">
                             <span class="stat-label">Total Trips:</span>
-                            <span class="stat-value" id="totalTrips">0</span>
+                            <span class="stat-value" id="totalTrips">247</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Rating:</span>
@@ -295,6 +446,71 @@
                             <span class="stat-label">Member Since:</span>
                             <span class="stat-value" id="memberSince">Jan 2024</span>
                         </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Vehicle:</span>
+                            <span class="stat-value" id="profileVehicle">Toyota Hilux</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Modal -->
+        <div id="notificationsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Notifications</h2>
+                    <button class="modal-close" onclick="closeModal('notificationsModal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="notification-list" id="notificationList">
+                        <!-- Notifications will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Modal -->
+        <div id="supportModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Support Center</h2>
+                    <button class="modal-close" onclick="closeModal('supportModal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="support-options">
+                        <button class="support-btn" onclick="callSupport()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            Call Support: 0800 BAKKIE
+                        </button>
+                        <button class="support-btn" onclick="reportIssue()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            Report Issue
+                        </button>
+                        <button class="support-btn" onclick="showFAQ()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            FAQ & Help
+                        </button>
                     </div>
                 </div>
             </div>
