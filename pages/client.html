@@ -244,6 +244,35 @@
                 <p>Your bakkie is on the way</p>
             </div>
             
+            <!-- Safety Bar -->
+            <div class="safety-bar">
+                <button class="safety-btn sos" onclick="openSosModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <circle cx="12" cy="16" r="1"/>
+                    </svg>
+                    SOS
+                </button>
+                <button class="safety-btn share" onclick="openShareModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="18" cy="5" r="3"/>
+                        <circle cx="6" cy="12" r="3"/>
+                        <circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    Share
+                </button>
+                <button class="safety-btn verify" onclick="openVerifyModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Verify
+                </button>
+            </div>
+
             <!-- Real-time Tracking Card -->
             <div class="card tracking-card" id="trackingCard">
                 <div class="tracking-header">
@@ -314,6 +343,35 @@
                 <!-- Driver info will be populated by JavaScript -->
             </div>
             
+            <!-- Safety Bar (in-trip) -->
+            <div class="safety-bar">
+                <button class="safety-btn sos" onclick="openSosModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <circle cx="12" cy="16" r="1"/>
+                    </svg>
+                    SOS
+                </button>
+                <button class="safety-btn share" onclick="openShareModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="18" cy="5" r="3"/>
+                        <circle cx="6" cy="12" r="3"/>
+                        <circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    Share
+                </button>
+                <button class="safety-btn verify" onclick="openVerifyModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Verify
+                </button>
+            </div>
+
             <div class="trip-details">
                 <h4>Trip Details</h4>
                 <div class="driver-specs">
@@ -379,6 +437,85 @@
         </div>
     </div>
 
+    <!-- SOS Modal -->
+    <div class="modal hidden" id="sosModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Emergency Assistance</h2>
+                <button class="modal-close" onclick="closeModal('sosModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom:12px; color: var(--text-secondary);">Choose an emergency action. Your current trip details will be included where possible.</p>
+                <div class="sos-actions">
+                    <button class="sos-action call" onclick="sosCall()">Call 112</button>
+                    <button class="sos-action text" onclick="sosTextTrusted()">Text Trusted Contact</button>
+                    <button class="sos-action share" onclick="sosShareLink()">Share Live Location Link</button>
+                </div>
+                <div class="trusted-contact">
+                    <label for="trustedPhone">Trusted Contact Number</label>
+                    <input type="tel" id="trustedPhone" placeholder="e.g. +27 82 123 4567" />
+                    <button class="save-trusted" onclick="saveTrustedContact()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Trip Modal -->
+    <div class="modal hidden" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Share Live Trip</h2>
+                <button class="modal-close" onclick="closeModal('shareModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-row">
+                    <input type="text" id="shareLink" readonly>
+                    <button class="copy-btn" onclick="copyShareLink()">Copy</button>
+                </div>
+                <div class="share-actions">
+                    <button class="wa-btn" onclick="shareViaWhatsApp()">Share via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Driver Verification Modal -->
+    <div class="modal hidden" id="verifyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Verify Your Driver</h2>
+                <button class="modal-close" onclick="closeModal('verifyModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="verify-grid">
+                    <div class="verify-row"><span>Name</span><strong id="verifyName">-</strong></div>
+                    <div class="verify-row"><span>Vehicle</span><strong id="verifyVehicle">-</strong></div>
+                    <div class="verify-row"><span>Plate</span><strong id="verifyPlate">-</strong></div>
+                    <div class="verify-row"><span>License No.</span><strong id="verifyLicense">-</strong></div>
+                </div>
+                <div class="verify-actions">
+                    <button class="btn-match" onclick="confirmDriverMatch(true)">Matches</button>
+                    <button class="btn-nomatch" onclick="confirmDriverMatch(false)">Doesn't Match</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../js/client.js"></script>
+    <script src="../js/safety.js"></script>
 </body>
 </html>

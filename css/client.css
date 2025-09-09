@@ -969,6 +969,163 @@ body {
     color: var(--warning-text);
 }
 
+/* Safety Bar */
+.safety-bar {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 16px;
+}
+
+.safety-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.safety-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-accent);
+}
+
+.safety-btn:hover {
+    border-color: var(--border-focus);
+    background: var(--button-secondary-hover);
+}
+
+.safety-btn.sos {
+    border-color: var(--button-danger);
+}
+
+.safety-btn.sos:hover {
+    background: rgba(239, 68, 68, 0.12);
+}
+
+/* SOS Modal */
+.sos-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.sos-action {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.sos-action.call { color: #b91c1c; border-color: #ef4444; }
+.sos-action.text { color: var(--text-accent); }
+.sos-action.share { color: var(--button-success); }
+
+.trusted-contact {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: end;
+}
+
+.trusted-contact label {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.trusted-contact input {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.save-trusted {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-accent);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Share Modal */
+.share-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+}
+
+#shareLink {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.copy-btn, .wa-btn {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-accent);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.share-actions { margin-top: 12px; }
+
+/* Verify Modal */
+.verify-grid {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.verify-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.verify-row span { color: var(--text-secondary); font-size: 14px; }
+.verify-row strong { color: var(--text-primary); font-weight: 600; }
+
+.verify-actions { display: flex; gap: 8px; }
+.btn-match {
+    flex: 1;
+    background: var(--button-success);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+}
+.btn-nomatch {
+    flex: 1;
+    background: var(--button-danger);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+}
+
 /* Action Buttons */
 .action-buttons {
     display: flex;
