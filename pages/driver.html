@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard - Dial a Bakkie</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/driver.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="icon" type="image/png" href="../assets/icon.jpeg">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="../assets/icon.jpeg" alt="Dial a Bakkie" class="logo-img">
+                <h1>Driver Dashboard</h1>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <button class="header-btn" onclick="showEarnings()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    Earnings
+                </button>
+                <button class="header-btn" onclick="showProfile()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Status Section -->
+        <section id="statusSection" class="section">
+            <div class="status-card">
+                <div class="status-header">
+                    <h2>Driver Status</h2>
+                    <div class="status-toggle">
+                        <button id="statusToggle" class="status-btn offline" onclick="toggleStatus()">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Go Online</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="status-info">
+                    <div class="info-item">
+                        <span class="info-label">Today's Trips:</span>
+                        <span class="info-value" id="todayTrips">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Today's Earnings:</span>
+                        <span class="info-value" id="todayEarnings">R0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Rating:</span>
+                        <span class="info-value" id="driverRating">4.8 ⭐</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Request Section -->
+        <section id="requestSection" class="section hidden">
+            <div class="request-card">
+                <div class="request-header">
+                    <h2>New Trip Request</h2>
+                    <div class="request-timer">
+                        <span id="requestTimer">30s</span>
+                    </div>
+                </div>
+                <div class="request-details">
+                    <div class="customer-info">
+                        <div class="customer-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="customer-details">
+                            <h3 id="customerName">John Doe</h3>
+                            <p id="customerPhone">+27 82 123 4567</p>
+                            <div class="customer-rating">
+                                <span>4.9 ⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trip-info">
+                        <div class="location-item">
+                            <div class="location-icon pickup">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                </svg>
+                            </div>
+                            <div class="location-details">
+                                <span class="location-label">Pickup:</span>
+                                <span class="location-address" id="pickupAddress">123 Main St, Johannesburg</span>
+                            </div>
+                        </div>
+                        <div class="location-item">
+                            <div class="location-icon dropoff">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div class="location-details">
+                                <span class="location-label">Drop-off:</span>
+                                <span class="location-address" id="dropoffAddress">456 Oak Ave, Sandton</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trip-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Distance:</span>
+                            <span class="summary-value" id="tripDistance">12.5 km</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Est. Duration:</span>
+                            <span class="summary-value" id="tripDuration">25 min</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Vehicle:</span>
+                            <span class="summary-value" id="tripVehicle">Bakkie</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Fare:</span>
+                            <span class="summary-value" id="tripFare">R185</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="request-actions">
+                    <button class="action-btn decline" onclick="declineRequest()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        Decline
+                    </button>
+                    <button class="action-btn accept" onclick="acceptRequest()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20,6 9,17 4,12"/>
+                        </svg>
+                        Accept
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trip Section -->
+        <section id="tripSection" class="section hidden">
+            <div class="trip-card">
+                <div class="trip-header">
+                    <h2>Current Trip</h2>
+                    <div class="trip-status">
+                        <span id="tripStatus">En Route to Pickup</span>
+                    </div>
+                </div>
+                <div class="trip-content">
+                    <div class="customer-location">
+                        <div class="location-header">
+                            <h3>Customer Location</h3>
+                            <button class="location-btn" onclick="getCurrentLocation()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                </svg>
+                                My Location
+                            </button>
+                        </div>
+                        <div class="map-container">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                    <div class="trip-actions">
+                        <button class="trip-btn" id="pickupBtn" onclick="markPickup()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <polyline points="17 11 19 13 23 9"/>
+                            </svg>
+                            Mark Pickup
+                        </button>
+                        <button class="trip-btn" id="startTripBtn" onclick="startTrip()" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                            Start Trip
+                        </button>
+                        <button class="trip-btn" id="completeTripBtn" onclick="completeTrip()" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"/>
+                            </svg>
+                            Complete Trip
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Earnings Modal -->
+        <div id="earningsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Earnings</h2>
+                    <button class="modal-close" onclick="closeModal('earningsModal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="earnings-summary">
+                        <div class="earnings-item">
+                            <span class="earnings-label">Today:</span>
+                            <span class="earnings-value" id="earningsToday">R0</span>
+                        </div>
+                        <div class="earnings-item">
+                            <span class="earnings-label">This Week:</span>
+                            <span class="earnings-value" id="earningsWeek">R0</span>
+                        </div>
+                        <div class="earnings-item">
+                            <span class="earnings-label">This Month:</span>
+                            <span class="earnings-value" id="earningsMonth">R0</span>
+                        </div>
+                    </div>
+                    <div class="earnings-chart">
+                        <h3>Recent Trips</h3>
+                        <div class="trip-list" id="earningsTripList">
+                            <!-- Trip items will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profileModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Driver Profile</h2>
+                    <button class="modal-close" onclick="closeModal('profileModal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="profile-details">
+                            <h3 id="driverName">Driver Name</h3>
+                            <p id="driverPhone">+27 82 123 4567</p>
+                            <p id="driverEmail">driver@example.com</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Trips:</span>
+                            <span class="stat-value" id="totalTrips">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Rating:</span>
+                            <span class="stat-value" id="profileRating">4.8 ⭐</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Member Since:</span>
+                            <span class="stat-value" id="memberSince">Jan 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../js/core/storage.js"></script>
+    <script src="../js/features/map.js"></script>
+    <script src="../js/driver.js"></script>
+</body>
+</html>

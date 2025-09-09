@@ -102,7 +102,7 @@ function handleLogin() {
             if (selectedRole === 'customer') {
                 window.location.href = 'pages/client.html';
             } else {
-                window.location.href = 'index.html';
+                window.location.href = 'pages/driver.html';
             }
         }, 2000);
         
