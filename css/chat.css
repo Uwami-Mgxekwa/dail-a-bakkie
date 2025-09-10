@@ -160,42 +160,87 @@
 /* Chat Toggle Button */
 .chat-toggle-btn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
     background: var(--primary-color);
     color: white;
-    border: none;
-    border-radius: 50%;
+    border: 3px solid var(--bg-secondary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 999;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pulse 2.5s infinite;
+}
+
+.chat-toggle-btn svg {
+    width: 26px;
+    height: 26px;
+    stroke: white;
+    stroke-width: 2.5px;
+    fill: none;
+    transition: transform 0.2s ease;
+}
+
+[data-theme="dark"] .chat-toggle-btn {
+    background: var(--primary-color);
+    border-color: var(--bg-primary);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .chat-toggle-btn {
+    background: #1a56db; /* Slightly darker blue for better contrast */
+    border: 3px solid white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .chat-toggle-btn svg {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+    stroke-width: 2.2px;
 }
 
 .chat-toggle-btn:hover {
-    transform: scale(1.05);
-    background: var(--primary-dark);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
 }
 
-.chat-toggle-badge {
+.chat-toggle-btn:hover svg {
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(26, 86, 219, 0.7), 0 2px 15px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(26, 86, 219, 0.3), 0 2px 15px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(26, 86, 219, 0), 0 2px 15px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.chat-toggle-btn .unread-count {
     position: absolute;
     top: -5px;
     right: -5px;
     background: #ff4d4f;
     color: white;
-    border-radius: 50%;
-    width: 20px;
+    border-radius: 10px;
+    min-width: 20px;
     height: 20px;
     font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    border: 2px solid var(--bg-secondary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Typing Indicator */
