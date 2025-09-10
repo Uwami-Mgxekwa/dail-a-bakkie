@@ -162,20 +162,19 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--primary-color);
     color: white;
-    border: 3px solid var(--bg-secondary);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--bg-secondary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: pulse 2.5s infinite;
+    transition: all 0.2s ease;
 }
 
 .chat-toggle-btn svg {
@@ -213,17 +212,6 @@
     transform: scale(1.1);
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(26, 86, 219, 0.7), 0 2px 15px rgba(0, 0, 0, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 0 12px rgba(26, 86, 219, 0.3), 0 2px 15px rgba(0, 0, 0, 0.3);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(26, 86, 219, 0), 0 2px 15px rgba(0, 0, 0, 0.3);
-    }
-}
 
 .chat-toggle-btn .unread-count {
     position: absolute;
