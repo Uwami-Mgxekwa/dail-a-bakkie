@@ -1,5 +1,17 @@
 // Enhanced Driver Dashboard JavaScript
 
+// Authentication
+function signOut() {
+    // Clear authentication
+    StorageUtil.clearAuth();
+    
+    // Stop any active timers
+    stopOnlineTimer();
+    
+    // Redirect to login page
+    window.location.href = '../index.html';
+}
+
 // Global variables
 let isOnline = false;
 let currentRequest = null;

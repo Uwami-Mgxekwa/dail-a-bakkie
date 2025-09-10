@@ -1,3 +1,12 @@
+// Authentication
+function signOut() {
+    // Clear authentication
+    StorageUtil.clearAuth();
+    
+    // Redirect to login page
+    window.location.href = '../index.html';
+}
+
 // Theme Management
 function initTheme() {
     const savedTheme = localStorage.getItem('dial-a-bakkie-theme') || 'light';

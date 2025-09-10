@@ -1,5 +1,14 @@
 let selectedRole = 'customer';
 
+// Authentication
+function signOut() {
+    // Clear authentication
+    StorageUtil.clearAuth();
+    
+    // Redirect to login page
+    window.location.href = '../index.html';
+}
+
 function initTheme() {
     const savedTheme = localStorage.getItem('dial-a-bakkie-theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);

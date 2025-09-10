@@ -92,9 +92,17 @@ function handleLogin() {
     
     const container = document.querySelector('.container');
     container.classList.add('loading');
+    const email = document.getElementById('email').value.trim();
 
     setTimeout(() => {
         container.classList.remove('loading');
+        
+        // Save authentication state
+        StorageUtil.setAuth({
+            email: email,
+            role: selectedRole,
+            timestamp: new Date().toISOString()
+        });
         
         showMessage('success', `Welcome back! Logging you in as ${selectedRole}...`);
         
@@ -107,6 +115,14 @@ function handleLogin() {
         }, 2000);
         
     }, 1500);
+}
+
+function signOut() {
+    // Clear authentication
+    StorageUtil.clearAuth();
+    
+    // Redirect to login page
+    window.location.href = '../index.html';
 }
 
 function showForgotPassword() {
