@@ -48,6 +48,7 @@ let dropoffMarker = null;
 let routeLine = null;
 let currentLocation = null;
 let tripHistory = [];
+let currentTripId = null;
 let favorites = [];
 let trackingInterval = null;
 let driverLocation = null;
@@ -893,3 +894,52 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
 }
+
+// Chat Functions
+function startChat() {
+    if (currentDriver && realtimeChat) {
+        currentTripId = 'trip_' + Date.now(); // Generate trip ID
+        realtimeChat.startChat(currentTripId, currentDriver.name);
+    }
+}
+
+function endChat() {
+    if (realtimeChat) {
+        realtimeChat.endChat();
+    }
+}
+
+// Update the startTrip function to include chat
+const originalStartTrip = startTrip;
+startTrip = function() {
+    originalStartTrip();
+    
+    // Start chat when trip begins
+    if (currentDriver && realtimeChat) {
+        currentTripId = 'trip_' + Date.now();
+        realtimeChat.startChat(currentTripId, currentDriver.name);
+    }
+};
+
+// Update the cancelRequest function to end chat
+const originalCancelRequest = cancelRequest;
+cancelRequest = function() {
+    originalCancelRequest();
+    endChat();
+};
+
+// Add chat integration to trip completion
+document.addEventListener('DOMContentLoaded', function() {
+    // Override the existing trip completion logic
+    const originalShowSection = showSection;
+    showSection = function(section) {
+        originalShowSection(section);
+        
+        // End chat when trip is completed or cancelled
+        if (section === 'idle' && realtimeChat) {
+            setTimeout(() => {
+                endChat();
+            }, 2000); // Small delay to allow completion message
+        }
+    };
+});

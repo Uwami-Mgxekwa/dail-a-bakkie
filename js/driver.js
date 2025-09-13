@@ -814,4 +814,55 @@ window.addEventListener('online', function() {
 
 window.addEventListener('offline', function() {
     showNotification('No internet connection - working offline', 'warning');
-});
+});// Ch
+at Functions for Driver
+function startDriverChat() {
+    if (currentRequest && realtimeChat) {
+        const tripId = 'trip_' + Date.now();
+        const customerName = currentRequest.customerName || 'Customer';
+        realtimeChat.startChat(tripId, customerName);
+    }
+}
+
+function messageCustomer() {
+    startDriverChat();
+}
+
+// Update acceptRequest function to include chat option
+const originalAcceptRequest = typeof acceptRequest !== 'undefined' ? acceptRequest : function() {};
+acceptRequest = function() {
+    if (originalAcceptRequest) {
+        originalAcceptRequest();
+    }
+    
+    // Enable chat after accepting request
+    if (currentRequest && realtimeChat) {
+        const tripId = 'trip_' + Date.now();
+        const customerName = currentRequest.customerName || 'Customer';
+        realtimeChat.startChat(tripId, customerName);
+    }
+};
+
+// Update completeTrip function to end chat
+const originalCompleteTrip = typeof completeTrip !== 'undefined' ? completeTrip : function() {};
+completeTrip = function() {
+    if (originalCompleteTrip) {
+        originalCompleteTrip();
+    }
+    
+    // End chat when trip is completed
+    if (realtimeChat) {
+        setTimeout(() => {
+            realtimeChat.endChat();
+        }, 3000); // Allow time for completion messages
+    }
+};
+
+// Mock current request for demo
+if (!currentRequest) {
+    currentRequest = {
+        customerName: 'John Doe',
+        customerPhone: '+27 82 123 4567',
+        customerRating: 4.9
+    };
+}
