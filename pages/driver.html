@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="icon" type="image/png" href="../assets/icon.jpeg">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -21,50 +23,51 @@
             <div class="header-actions">
                 <button class="theme-toggle" onclick="toggleTheme()">
                     <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"/>
-                        <line x1="12" y1="1" x2="12" y2="3"/>
-                        <line x1="12" y1="21" x2="12" y2="23"/>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                        <line x1="1" y1="12" x2="3" y2="12"/>
-                        <line x1="21" y1="12" x2="23" y2="12"/>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                     </svg>
                 </button>
                 <button class="header-btn" onclick="showEarnings()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="1" x2="12" y2="23"/>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     </svg>
                     Earnings
                 </button>
                 <button class="header-btn" onclick="showNotifications()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
                     Alerts
                     <span id="notificationBadge" class="notification-badge hidden">3</span>
                 </button>
                 <button class="header-btn" onclick="showSupport()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                     </svg>
                     Support
                 </button>
                 <button class="header-btn" onclick="signOut()" title="Sign Out">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
                     Sign Out
                 </button>
                 <button class="header-btn" onclick="showProfile()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
                     </svg>
                     Profile
                 </button>
@@ -131,16 +134,16 @@
                     </div>
                 </div>
 
-                <!-- Vehicle Status Card -->
+                <!-- Vehicle & Services Card -->
                 <div class="vehicle-card">
-                    <h3>Vehicle Status</h3>
+                    <h3>Vehicle & Services</h3>
                     <div class="vehicle-info">
                         <div class="vehicle-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
-                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
-                                <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2"/>
-                                <path d="M9 17v-6h8"/>
+                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" />
+                                <path d="M9 17v-6h8" />
                             </svg>
                         </div>
                         <div class="vehicle-details">
@@ -148,6 +151,19 @@
                             <p id="vehiclePlate">GP 123 ABC</p>
                         </div>
                     </div>
+
+                    <div class="services-offered">
+                        <h4>Services You Offer</h4>
+                        <div class="service-tags">
+                            <span class="service-tag active">Bakkie Go</span>
+                            <span class="service-tag active">Bakkie XL</span>
+                            <span class="service-tag">Assist</span>
+                            <span class="service-tag inactive">Truck</span>
+                        </div>
+                        <button class="btn btn-sm btn-secondary" onclick="showServiceSettings()">Manage
+                            Services</button>
+                    </div>
+
                     <div class="vehicle-checks">
                         <div class="check-item">
                             <span>Fuel Level</span>
@@ -175,8 +191,8 @@
                     <h3>Navigation Helper</h3>
                     <button class="location-btn" onclick="getCurrentLocation()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" />
                         </svg>
                         Update Location
                     </button>
@@ -200,20 +216,27 @@
                     </div>
                 </div>
                 <div class="nav-actions">
-					<button class="nav-btn" onclick="openGoogleMaps()">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-							<circle cx="12" cy="10" r="3"/>
-						</svg>
-						Google Maps
-					</button>
-					<button class="nav-btn" onclick="openWaze()">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-						</svg>
-						Waze
-					</button>
-				</div>
+                    <button class="nav-btn" onclick="toggleDriverTracking()" id="trackingToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" />
+                        </svg>
+                        <span id="trackingStatus">Start GPS</span>
+                    </button>
+                    <button class="nav-btn" onclick="openGoogleMaps()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        Google Maps
+                    </button>
+                    <button class="nav-btn" onclick="openWaze()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        </svg>
+                        Waze
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -230,8 +253,8 @@
                     <div class="customer-info">
                         <div class="customer-avatar">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
                             </svg>
                         </div>
                         <div class="customer-details">
@@ -244,13 +267,14 @@
                         <div class="customer-actions">
                             <button class="contact-btn" onclick="callCustomer()">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                 </svg>
                                 Call
                             </button>
                             <button class="contact-btn" onclick="startDriverChat()">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                                 </svg>
                                 Chat
                             </button>
@@ -260,8 +284,8 @@
                         <div class="location-item">
                             <div class="location-icon pickup">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="3"/>
-                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" />
                                 </svg>
                             </div>
                             <div class="location-details">
@@ -273,8 +297,8 @@
                         <div class="location-item">
                             <div class="location-icon dropoff">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
                                 </svg>
                             </div>
                             <div class="location-details">
@@ -306,14 +330,14 @@
                 <div class="request-actions">
                     <button class="action-btn decline" onclick="declineRequest()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                         Decline
                     </button>
                     <button class="action-btn accept" onclick="acceptRequest()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="20,6 9,17 4,12"/>
+                            <polyline points="20,6 9,17 4,12" />
                         </svg>
                         Accept
                     </button>
@@ -336,8 +360,8 @@
                             <h3 id="currentLocationTitle">Customer Location</h3>
                             <button class="location-btn" onclick="getCurrentLocation()">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="3"/>
-                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" />
                                 </svg>
                                 My Location
                             </button>
@@ -349,27 +373,27 @@
                     <div class="trip-actions">
                         <button class="trip-btn" id="pickupBtn" onclick="markPickup()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="8.5" cy="7" r="4"/>
-                                <polyline points="17 11 19 13 23 9"/>
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <polyline points="17 11 19 13 23 9" />
                             </svg>
                             Mark Pickup
                         </button>
                         <button class="trip-btn" id="startTripBtn" onclick="startTrip()" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="5,3 19,12 5,21"/>
+                                <polygon points="5,3 19,12 5,21" />
                             </svg>
                             Start Trip
                         </button>
                         <button class="trip-btn" id="completeTripBtn" onclick="completeTrip()" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20,6 9,17 4,12"/>
+                                <polyline points="20,6 9,17 4,12" />
                             </svg>
                             Complete Trip
                         </button>
                         <button class="trip-btn emergency" onclick="emergencyAlert()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                             </svg>
                             Emergency
                         </button>
@@ -386,8 +410,8 @@
                     <h2>Earnings Overview</h2>
                     <button class="modal-close" onclick="closeModal('earningsModal')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </button>
                 </div>
@@ -423,8 +447,8 @@
                     <h2>Driver Profile</h2>
                     <button class="modal-close" onclick="closeModal('profileModal')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </button>
                 </div>
@@ -432,8 +456,8 @@
                     <div class="profile-info">
                         <div class="profile-avatar">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
                             </svg>
                         </div>
                         <div class="profile-details">
@@ -471,8 +495,8 @@
                     <h2>Notifications</h2>
                     <button class="modal-close" onclick="closeModal('notificationsModal')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </button>
                 </div>
@@ -491,8 +515,8 @@
                     <h2>Support Center</h2>
                     <button class="modal-close" onclick="closeModal('supportModal')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </button>
                 </div>
@@ -500,26 +524,109 @@
                     <div class="support-options">
                         <button class="support-btn" onclick="callSupport()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                             </svg>
                             Call Support: 0800 BAKKIE
                         </button>
                         <button class="support-btn" onclick="reportIssue()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                                <line x1="12" y1="9" x2="12" y2="13"/>
-                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                <path
+                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
                             </svg>
                             Report Issue
                         </button>
                         <button class="support-btn" onclick="showFAQ()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
                             </svg>
                             FAQ & Help
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Settings Modal -->
+        <div id="serviceSettingsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Manage Your Services</h2>
+                    <button class="modal-close" onclick="closeModal('serviceSettingsModal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Select which services you want to offer based on your vehicle and capabilities:</p>
+
+                    <div class="service-options">
+                        <div class="service-option">
+                            <div class="service-option-info">
+                                <h4>Bakkie Go</h4>
+                                <p>Small items & furniture (up to 500kg)</p>
+                                <span class="earning-potential">~R45-80 per trip</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="service-bakkie-go" checked
+                                    onchange="toggleService('bakkie-go')">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="service-option">
+                            <div class="service-option-info">
+                                <h4>Bakkie XL</h4>
+                                <p>Large furniture & appliances (up to 1000kg)</p>
+                                <span class="earning-potential">~R75-120 per trip</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="service-bakkie-xl" checked
+                                    onchange="toggleService('bakkie-xl')">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="service-option">
+                            <div class="service-option-info">
+                                <h4>Assist</h4>
+                                <p>Includes loading/unloading help (up to 800kg)</p>
+                                <span class="earning-potential">~R95-150 per trip</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="service-assist" onchange="toggleService('assist')">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="service-option disabled">
+                            <div class="service-option-info">
+                                <h4>Truck</h4>
+                                <p>Heavy cargo & moving (up to 3000kg)</p>
+                                <span class="earning-potential">~R120-200 per trip</span>
+                                <small class="requirement">Requires truck license & vehicle verification</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="service-truck" disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="service-requirements">
+                        <h4>Requirements for Assist Service:</h4>
+                        <ul>
+                            <li>Physical fitness assessment</li>
+                            <li>Additional insurance coverage</li>
+                            <li>Customer service training</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="applyForAssist()">Apply for Assist Service</button>
                     </div>
                 </div>
             </div>
@@ -531,6 +638,8 @@
     <script src="../js/core/storage.js"></script>
     <script src="../js/features/chat.js"></script>
     <script src="../js/features/map.js"></script>
+    <script src="../js/features/live-tracking.js"></script>
     <script src="../js/driver.js"></script>
 </body>
+
 </html>

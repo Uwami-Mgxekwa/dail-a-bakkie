@@ -71,39 +71,158 @@
         <div class="card" id="locationCard">
             <h2>Where to?</h2>
             
-            <!-- Vehicle Type Selection -->
-            <div class="vehicle-selector">
-                <h3>Choose Vehicle Type</h3>
-                <div class="vehicle-options">
-                    <div class="vehicle-option active" data-vehicle="bakkie" onclick="selectVehicle('bakkie')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 18H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-1M5 18a3 3 0 1 0 6 0M5 18a3 3 0 1 1 6 0m0 0h6a3 3 0 1 0 0-6h-2.5"/>
-                            <path d="M17 8V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12"/>
-                        </svg>
-                        <span>Bakkie</span>
-                        <small>R50 base</small>
+            <!-- Service Type Selection -->
+            <div class="service-selector">
+                <h3>Choose Your Service</h3>
+                <div class="service-grid">
+                    <div class="service-card active" data-service="bakkie-go" onclick="selectService('bakkie-go')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2"/>
+                                <path d="M9 17v-6h8"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Bakkie Go</h4>
+                            <p>Small items & furniture</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 500kg</span>
+                                <span class="price">From R45</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="vehicle-option" data-vehicle="van" onclick="selectVehicle('van')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="1" y="3" width="15" height="13"/>
-                            <polygon points="16,8 20,8 23,11 23,16 16,16"/>
-                            <circle cx="5.5" cy="18.5" r="2.5"/>
-                            <circle cx="18.5" cy="18.5" r="2.5"/>
-                        </svg>
-                        <span>Van</span>
-                        <small>R70 base</small>
+
+                    <div class="service-card" data-service="bakkie-xl" onclick="selectService('bakkie-xl')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"/>
+                                <polygon points="16,8 20,8 23,11 23,16 16,16"/>
+                                <circle cx="5.5" cy="18.5" r="2.5"/>
+                                <circle cx="18.5" cy="18.5" r="2.5"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Bakkie XL</h4>
+                            <p>Large furniture & appliances</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 1000kg</span>
+                                <span class="price">From R75</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="vehicle-option" data-vehicle="truck" onclick="selectVehicle('truck')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="1" y="3" width="15" height="13"/>
-                            <polygon points="16,8 20,8 23,11 23,16 16,16"/>
-                            <circle cx="5.5" cy="18.5" r="2.5"/>
-                            <circle cx="18.5" cy="18.5" r="2.5"/>
-                            <line x1="8" y1="8" x2="8" y2="13"/>
-                            <line x1="13" y1="8" x2="13" y2="13"/>
-                        </svg>
-                        <span>Truck</span>
-                        <small>R100 base</small>
+
+                    <div class="service-card" data-service="truck" onclick="selectService('truck')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"/>
+                                <polygon points="16,8 20,8 23,11 23,16 16,16"/>
+                                <circle cx="5.5" cy="18.5" r="2.5"/>
+                                <circle cx="18.5" cy="18.5" r="2.5"/>
+                                <line x1="8" y1="8" x2="8" y2="13"/>
+                                <line x1="13" y1="8" x2="13" y2="13"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Truck</h4>
+                            <p>Heavy cargo & moving</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 3000kg</span>
+                                <span class="price">From R120</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-service="moto" onclick="selectService('moto')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 18a7 7 0 1 0 14 0"/>
+                                <path d="M15 18H9"/>
+                                <path d="M10 16l4-8 4 8"/>
+                                <circle cx="12" cy="5" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Moto</h4>
+                            <p>Quick delivery</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 20kg</span>
+                                <span class="price">From R25</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-service="courier" onclick="selectService('courier')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Courier</h4>
+                            <p>Documents & parcels</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 5kg</span>
+                                <span class="price">From R15</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-service="assist" onclick="selectService('assist')">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <polyline points="17,11 19,13 23,9"/>
+                            </svg>
+                        </div>
+                        <div class="service-info">
+                            <h4>Assist</h4>
+                            <p>Helper included</p>
+                            <div class="service-details">
+                                <span class="capacity">Up to 800kg</span>
+                                <span class="price">From R95</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cargo Details -->
+            <div class="cargo-details hidden" id="cargoDetails">
+                <h3>Cargo Information</h3>
+                <div class="cargo-inputs">
+                    <div class="input-group">
+                        <label for="cargoWeight">Estimated Weight (kg)</label>
+                        <select id="cargoWeight" onchange="updateCargoWeight()">
+                            <option value="light">Light (0-50kg)</option>
+                            <option value="medium">Medium (50-200kg)</option>
+                            <option value="heavy">Heavy (200-500kg)</option>
+                            <option value="very-heavy">Very Heavy (500kg+)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="cargoType">What are you moving?</label>
+                        <select id="cargoType" onchange="updateCargoType()">
+                            <option value="furniture">Furniture</option>
+                            <option value="appliances">Appliances</option>
+                            <option value="boxes">Boxes/Packages</option>
+                            <option value="documents">Documents</option>
+                            <option value="food">Food/Groceries</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="helpNeeded">Need loading/unloading help?</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="helpNeeded" onchange="updateHelpNeeded()">
+                            <label for="helpNeeded" class="toggle-label">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -281,47 +400,75 @@
                 </button>
             </div>
 
-            <!-- Real-time Tracking Card -->
+            <!-- Driver Journey Tracking -->
             <div class="card tracking-card" id="trackingCard">
                 <div class="tracking-header">
-                    <h3>Driver is arriving</h3>
+                    <h3>Driver Journey</h3>
                     <div class="eta-display">
-                        <span class="eta-time" id="etaTime">3 mins</span>
+                        <span class="eta-time" id="etaTime">15 mins</span>
                         <span class="eta-label">ETA</span>
                     </div>
                 </div>
                 
-                <div class="tracking-progress">
+                <!-- Journey Progress -->
+                <div class="journey-progress">
                     <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                     </div>
-                    <div class="progress-labels">
-                        <span>Driver en route</span>
-                        <span>Arriving soon</span>
-                    </div>
+                    <div class="progress-percentage" id="progressPercentage">0%</div>
                 </div>
                 
-                <div class="tracking-details">
-                    <div class="tracking-item">
+                <!-- Journey Status -->
+                <div class="journey-status">
+                    <div class="status-icon" id="statusIcon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
-                        <div class="tracking-info">
-                            <span class="tracking-label">Current Location</span>
-                            <span class="tracking-value" id="driverLocation">Approaching pickup point</span>
-                        </div>
                     </div>
-                    
-                    <div class="tracking-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12,6 12,12 16,14"/>
-                        </svg>
-                        <div class="tracking-info">
-                            <span class="tracking-label">Last Updated</span>
-                            <span class="tracking-value" id="lastUpdated">Just now</span>
-                        </div>
+                    <div class="status-text">
+                        <h4 id="journeyPhase">Driver Approaching</h4>
+                        <p id="journeyStatus">Driver is on the way to pickup location</p>
+                    </div>
+                </div>
+                
+                <!-- Journey Details -->
+                <div class="journey-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Current Speed</span>
+                        <span class="detail-value" id="currentSpeed">35 km/h</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Distance Remaining</span>
+                        <span class="detail-value" id="distanceRemaining">7.5 km</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Journey Stage</span>
+                        <span class="detail-value" id="journeyStage">1 of 5</span>
+                    </div>
+                </div>
+                
+                <!-- Journey Stages -->
+                <div class="journey-stages">
+                    <div class="stage active" id="stage-0">
+                        <div class="stage-icon">1</div>
+                        <span>Approaching</span>
+                    </div>
+                    <div class="stage" id="stage-1">
+                        <div class="stage-icon">2</div>
+                        <span>Arrived</span>
+                    </div>
+                    <div class="stage" id="stage-2">
+                        <div class="stage-icon">3</div>
+                        <span>Loading</span>
+                    </div>
+                    <div class="stage" id="stage-3">
+                        <div class="stage-icon">4</div>
+                        <span>Traveling</span>
+                    </div>
+                    <div class="stage" id="stage-4">
+                        <div class="stage-icon">5</div>
+                        <span>Delivered</span>
                     </div>
                 </div>
             </div>
@@ -533,6 +680,7 @@
     <script src="../js/features/pricing.js"></script>
     <script src="../js/features/map.js"></script>
     <script src="../js/features/chat.js"></script>
+    <script src="../js/features/simulated-tracking.js"></script>
     <script src="../js/client.js"></script>
     <script src="../js/safety.js"></script>
 </body>

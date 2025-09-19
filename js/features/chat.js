@@ -237,19 +237,34 @@ const Chat = (function() {
 
     // Toggle chat visibility
     function toggleChat() {
-        chatContainer.classList.toggle('visible');
+        if (!chatContainer) return;
         
-        if (chatContainer.classList.contains('visible')) {
+        const isVisible = chatContainer.classList.contains('visible');
+        
+        if (isVisible) {
+            chatContainer.classList.remove('visible');
+            chatContainer.style.display = 'none';
+        } else {
+            chatContainer.style.display = 'flex';
+            chatContainer.classList.add('visible');
             // Reset unread count when chat is opened
             resetUnreadCount();
             // Focus input
-            setTimeout(() => chatInput.focus(), 100);
+            setTimeout(() => {
+                if (chatInput) chatInput.focus();
+            }, 100);
         }
+        
+        console.log('Chat toggled:', !isVisible ? 'opened' : 'closed');
     }
 
     // Close chat
     function closeChat() {
-        chatContainer.classList.remove('visible');
+        if (chatContainer) {
+            chatContainer.classList.remove('visible');
+            chatContainer.style.display = 'none';
+        }
+        console.log('Chat closed');
     }
 
     // Update unread message count
